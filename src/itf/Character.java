@@ -5,22 +5,19 @@ public class Character {
 	private int defencePower;
 	private int healthPoint;
 	private int maxPower;
-	private int life;
+	private boolean lose;
 	
 	public Character(int ap,int dp,int hp, int mp){
 		attackPower = ap;
 		defencePower = dp;
-		
+		healthPoint = hp;
+		maxPower = mp;
+		lose = false;
+	}
+	public void setLose(boolean lose) {
+		this.lose = lose;
 	}
 	
-	public int getLife() {
-		return life;
-	}
-
-	public void setLife(int life) {
-		this.life = life;
-	}
-
 	public int getAttackPower() {
 		return attackPower;
 	}
@@ -68,26 +65,23 @@ public class Character {
 		
 	}
 
-	public void attack(int attack) {
+	public void attack(Character c) {
 		// TODO Auto-generated method stub
-		
+		c.attacked(attackPower);
 	}
 
 	public void shoot(int attack) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public void attacked(int amount){
-		
+		healthPoint -= amount;
+		if(isLose()) setLose(true);
 	}
 	
-	public boolean win(){
-		return false;
-	}
-	
-	public void updateStatus(){
-		
+	public boolean isLose(){
+		if(healthPoint <= 0) return true;
+		else return false;
 	}
 	
 	
