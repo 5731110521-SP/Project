@@ -1,6 +1,10 @@
-package itf;
+package entity;
 
-public class Character {
+import java.awt.Graphics2D;
+
+import render.IRenderable;
+
+public abstract class Character {
 	private int attackPower;
 	private int defencePower;
 	private int healthPoint;
@@ -50,20 +54,11 @@ public class Character {
 		this.maxPower = maxPower;
 	}
 	
-	public void transform() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void transform();
 	
-	public void walk() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void run(boolean isRight);
 
-	public void jump() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void jump();
 
 	public void attack(Character c) {
 		// TODO Auto-generated method stub
@@ -84,5 +79,6 @@ public class Character {
 		else return false;
 	}
 	
+	public abstract void update();
 	
 }
