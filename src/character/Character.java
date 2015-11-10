@@ -1,10 +1,10 @@
-package entity;
+package character;
 
 import java.awt.Graphics2D;
 
 import render.IRenderable;
 
-public abstract class Character {
+public abstract class Character implements Playable{
 	private int attackPower;
 	private int defencePower;
 	private int healthPoint;
@@ -60,10 +60,7 @@ public abstract class Character {
 
 	public abstract void jump();
 
-	public void attack(Character c) {
-		// TODO Auto-generated method stub
-		c.attacked(attackPower);
-	}
+	public abstract void attack(Character c);
 
 	public void shoot(int attack) {
 		// TODO Auto-generated method stub

@@ -2,44 +2,50 @@ package entity;
 
 import java.awt.event.KeyEvent;
 
+import character.Character;
+import character.Luffy;
+import character.Pikachu;
+import character.Playable;
 import input.InputUtility;
 import render.IRenderable;
 import render.RenderableHolder;
 
 public class GameLogic {
 	protected Player player1,player2;
-	protected Pikachu pikachu;
-	protected Pikachu pika;
+	protected Playable character1,character2;
 	
 	public GameLogic(){
 		player1 = new Player(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP);
-		pikachu = new Pikachu(0, 0, 0, 0,player1);
-		RenderableHolder.getInstance().add(pikachu);
+		character1 = (Playable) player1.getCharacter()[0];
+		RenderableHolder.getInstance().add(character1);
 		
 		player2 = new Player(KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_W);
-		pika = new Pikachu(0, 0, 0, 0,player2);
-		RenderableHolder.getInstance().add(pika);
+		character2 = (Playable) player2.getCharacter()[1];
+		RenderableHolder.getInstance().add(character2);
 	}
 	
 	public void logicUpdate(){
 		if(InputUtility.getKeyPressed(KeyEvent.VK_RIGHT)){
-			 pikachu.run(true);
+			 ((Character) character1).run(true);
 		}else if(InputUtility.getKeyPressed(KeyEvent.VK_LEFT)){
-			pikachu.run(false);
+			((Character) character1).run(false);
 		}
 		
 		if(InputUtility.getKeyPressed(KeyEvent.VK_UP)){
-			pikachu.jump();
+			((Character) character1).jump();
 		}
 		
 		if(InputUtility.getKeyPressed(KeyEvent.VK_D)){
-			 pika.run(true);
+			((Character) character2).run(true);
 		}else if(InputUtility.getKeyPressed(KeyEvent.VK_A)){
-			pika.run(false);
+			((Character) character2).run(false);
 		}
 		
 		if(InputUtility.getKeyPressed(KeyEvent.VK_W)){
-			pika.jump();
+			((Character) character2).jump();
+		}
+		if(InputUtility.getKeyPressed(KeyEvent.VK_F)){
+			((Character)character2).attack((Character) character2);
 		}
 		for(IRenderable entity : RenderableHolder.getInstance().getRenderableList()){
 			if(entity.isVisible()){

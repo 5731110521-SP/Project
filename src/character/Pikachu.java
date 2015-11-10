@@ -1,4 +1,4 @@
-package entity;
+package character;
 
 import input.InputUtility;
 
@@ -7,20 +7,20 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+
+import entity.Player;
 import render.IRenderable;
 import render.Resource;
 
 public class Pikachu extends Character
 						implements IRenderable{
 	BufferedImage pikachu;
-	private int x=100;
-	private int y=300;
+	private int x=50;
+	private int y=320;
 	private int countPic=0;
 	private int jumpMax = 10;
 	private int count=1;
-	private boolean isRun;
-	private boolean isRight;
-	private boolean isJump;
+	private boolean isRun,isRight,isJump,isAttack;
 	private Player player;
 
 	public Pikachu(int ap, int dp, int hp, int mp,Player player) {
@@ -33,7 +33,7 @@ public class Pikachu extends Character
 	@Override
 	public void draw(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.drawImage(pikachu,x,y,50,56,null);
+		g.drawImage(pikachu,x,y,25,28,null);
 		
 	}
 	
@@ -74,19 +74,13 @@ public class Pikachu extends Character
 			pikachu = Resource.pikachu.getSubimage(39+countPic*25, 147, 25, 28);
 			countPic++;
 			if(countPic==6)countPic=0;
-		}else{
+		}	
+		else{
 			pikachu = Resource.pikachu.getSubimage(102, 4, 25, 28);
 			countPic=0;
 		}
-		
-		//Tranform isLeft
-		AffineTransform at = new AffineTransform();
-		if(!isRight){
-			at = AffineTransform.getScaleInstance(-1, 1);
-			at.translate(-pikachu.getWidth(null), 0);
-			AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-			pikachu = op.filter(pikachu, null);
-		}
+		transform();
+		//39 231
 	}
 
 	@Override
@@ -115,12 +109,24 @@ public class Pikachu extends Character
 	@Override
 	public void transform() {
 		// TODO Auto-generated method stub
-		
+		AffineTransform at = new AffineTransform();
+		if(!isRight){
+			at = AffineTransform.getScaleInstance(-1, 1);
+			at.translate(-pikachu.getWidth(null), 0);
+			AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			pikachu = op.filter(pikachu, null);
+		}
 	}
 
 	@Override
 	public void jump() {
 		isJump = true;
+	}
+
+	@Override
+	public void attack(Character c) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
