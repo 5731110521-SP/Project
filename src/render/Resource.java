@@ -14,7 +14,7 @@ public class Resource {
 	static{
 		try{
 			ClassLoader loader = RenderableHolder.class.getClassLoader();
-			pikachu = ImageIO.read(loader.getResource("p.gif"));
+			pikachu = ImageIO.read(loader.getResource("res/p.gif"));
 			System.out.println("try");
 		}catch(Exception e){
 			pikachu = null;

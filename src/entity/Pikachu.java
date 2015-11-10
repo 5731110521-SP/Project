@@ -14,7 +14,7 @@ public class Pikachu extends Character
 						implements IRenderable{
 	BufferedImage pikachu;
 	private int x=100;
-	private int y=100;
+	private int y=300;
 	private int countPic=0;
 	private int jumpMax = 10;
 	private int count=1;
@@ -33,7 +33,7 @@ public class Pikachu extends Character
 	@Override
 	public void draw(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.drawImage(pikachu,x,y,25,28,null);
+		g.drawImage(pikachu,x,y,50,56,null);
 		
 	}
 	
@@ -46,10 +46,10 @@ public class Pikachu extends Character
 		//Change Y isJump
 		if(isJump){
 			if(count <= jumpMax) {
-				y -= 10;
+				y -= 20;
 				count++;
 			}else if(count > jumpMax && count <= jumpMax*2){
-				y += 10;
+				y += 20;
 				count++;
 			}else{
 				count=1;
@@ -58,11 +58,14 @@ public class Pikachu extends Character
 		
 		//Change image
 		if(isJump){
+			if(countPic>3){
+				countPic = 0;
+			}
 			pikachu = Resource.pikachu.getSubimage(64+countPic*26, 110, 26, 32);
 			if(count==1) countPic=1;
 			else if(count==jumpMax+1) countPic=2;
 			else if(count==jumpMax*2) countPic=3;
-			else if(countPic==3){
+			else if(countPic>=3){
 				countPic = 0;
 				isJump=false;
 			}
@@ -102,10 +105,10 @@ public class Pikachu extends Character
 		isRun=true;
 		this.isRight=isRight;
 		if(isRight){
-			x+=10;
+			x+=20;
 		}
 		else {
-			x-=10;
+			x-=20;
 		}
 	}
 
