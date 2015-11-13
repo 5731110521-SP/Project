@@ -25,16 +25,20 @@ public class GameLogic {
 	}
 	
 	public void logicUpdate(){
+		//Pikachu
 		if(InputUtility.getKeyPressed(KeyEvent.VK_RIGHT)){
 			 ((Character) character1).run(true);
 		}else if(InputUtility.getKeyPressed(KeyEvent.VK_LEFT)){
 			((Character) character1).run(false);
+		}else if(InputUtility.getKeyPressed(KeyEvent.VK_DOWN)){
+			((Character) character1).attack((Character)(character2));
 		}
 		
 		if(InputUtility.getKeyPressed(KeyEvent.VK_UP)){
 			((Character) character1).jump();
 		}
 		
+		//Luffy
 		if(InputUtility.getKeyPressed(KeyEvent.VK_D)){
 			((Character) character2).run(true);
 		}else if(InputUtility.getKeyPressed(KeyEvent.VK_A)){
@@ -45,8 +49,9 @@ public class GameLogic {
 			((Character) character2).jump();
 		}
 		if(InputUtility.getKeyPressed(KeyEvent.VK_F)){
-			((Character)character2).attack((Character) character2);
+			((Character)character2).attack((Character) character1);
 		}
+		
 		for(IRenderable entity : RenderableHolder.getInstance().getRenderableList()){
 			if(entity.isVisible()){
 				entity.update();

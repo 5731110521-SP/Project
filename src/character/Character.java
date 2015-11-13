@@ -5,11 +5,14 @@ import java.awt.Graphics2D;
 import render.IRenderable;
 
 public abstract class Character implements Playable{
-	private int attackPower;
-	private int defencePower;
-	private int healthPoint;
-	private int maxPower;
-	private boolean lose;
+	protected int attackPower;
+	protected int defencePower;
+	protected int healthPoint;
+	protected int maxPower;
+	protected boolean lose;
+	protected int x,y,width,height;
+	protected boolean isAttacked,isVisible = true;
+	protected boolean isBlink = false;
 	
 	public Character(int ap,int dp,int hp, int mp){
 		attackPower = ap;
@@ -20,6 +23,22 @@ public abstract class Character implements Playable{
 	}
 	public void setLose(boolean lose) {
 		this.lose = lose;
+	}
+	
+	public boolean isBlink() {
+		return isBlink;
+	}
+	
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+	
+	public boolean isVisible() {
+		return isVisible;
+	}
+	
+	public void setAttacked(boolean isAttacked) {
+		this.isAttacked = isAttacked;
 	}
 	
 	public int getAttackPower() {
@@ -68,13 +87,15 @@ public abstract class Character implements Playable{
 	
 	public void attacked(int amount){
 		healthPoint -= amount;
-		if(isLose()) setLose(true);
+		isAttacked=true;
 	}
 	
 	public boolean isLose(){
 		if(healthPoint <= 0) return true;
 		else return false;
 	}
+	
+	
 	
 	public abstract void update();
 	
