@@ -159,6 +159,7 @@ public class Luffy extends Character
 				width=40;
 				height=51;
 				isAttack=false;
+				isDoubleAttack = false;
 			}
 		}
 		

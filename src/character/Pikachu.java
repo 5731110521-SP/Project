@@ -44,8 +44,8 @@ public class Pikachu extends Character
 	
 	public boolean collideWith(Character ch){
 		System.out.println(ch);
-		System.out.println((x-xp+width/2)+" "+(ch.x+ch.width/2)+" asd "+(width/2+ch.width));
-		if( Math.hypot((x-xp+width/2)-(ch.x+ch.width/2),y-ch.y) <= width/2+ch.width){
+		System.out.println((x+width/2)+" "+(ch.x+ch.width/2)+" asd "+(width/2+ch.width));
+		if( Math.hypot((x+width/2)-(ch.x+ch.width/2),y-ch.y) <= width/2+ch.width){
 			return true;
 		}
 		return false;
@@ -101,7 +101,7 @@ public class Pikachu extends Character
 			countPic[0]=0;
 		}
 		
-		if(isAttack && !isDoubleAttack){
+		if(isAttack){
 			pikachu = Resource.pikachu.getSubimage(1+countPic[2]*28, 181, 28, 25);
 			width = 28;
 			height = 25;
@@ -125,6 +125,7 @@ public class Pikachu extends Character
 			enemy.attacked(attackPower);
 			isDoubleAttack = true;
 		}
+		
 		if(isAttacked && !isBlink){
 			isBlink = true;
 		}else if(isAttacked && isBlink) {
@@ -166,7 +167,6 @@ public class Pikachu extends Character
 	@Override
 	public void attack(Character c) {
 		isAttack = true;
-		isRun = false;
 		this.enemy = c;
 	}
 

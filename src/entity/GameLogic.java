@@ -43,13 +43,12 @@ public class GameLogic {
 			((Character) character2).run(true);
 		}else if(InputUtility.getKeyPressed(KeyEvent.VK_A)){
 			((Character) character2).run(false);
+		}else if(InputUtility.getKeyPressed(KeyEvent.VK_F)){
+			((Character)character2).attack((Character) character1);
 		}
 		
 		if(InputUtility.getKeyPressed(KeyEvent.VK_W)){
 			((Character) character2).jump();
-		}
-		if(InputUtility.getKeyPressed(KeyEvent.VK_F)){
-			((Character)character2).attack((Character) character1);
 		}
 		
 		for(IRenderable entity : RenderableHolder.getInstance().getRenderableList()){
