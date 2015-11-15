@@ -11,8 +11,8 @@ public abstract class Character implements Playable{
 	protected int maxPower;
 	protected boolean lose;
 	protected int x,y,width,height;
-	protected boolean isAttacked,isVisible = true;
-	protected boolean isBlink = false;
+	protected boolean isAttacked,isVisible;
+	protected boolean flashing= false;
 	
 	public Character(int ap,int dp,int hp, int mp){
 		attackPower = ap;
@@ -20,13 +20,11 @@ public abstract class Character implements Playable{
 		healthPoint = hp;
 		maxPower = mp;
 		lose = false;
+		isAttacked = false;
+		isVisible = true;
 	}
 	public void setLose(boolean lose) {
 		this.lose = lose;
-	}
-	
-	public boolean isBlink() {
-		return isBlink;
 	}
 	
 	public void setVisible(boolean isVisible) {
@@ -73,6 +71,12 @@ public abstract class Character implements Playable{
 		this.maxPower = maxPower;
 	}
 	
+	public boolean getFlashing(){
+		return flashing;
+	}
+	
+	public abstract void hitByEnemy();
+	
 	public abstract void transform();
 	
 	public abstract void run(boolean isRight);
@@ -87,15 +91,15 @@ public abstract class Character implements Playable{
 	
 	public void attacked(int amount){
 		healthPoint -= amount;
-		isAttacked=true;
+		isAttacked = true;
+		flashing = true;
+		hitByEnemy();
 	}
 	
 	public boolean isLose(){
 		if(healthPoint <= 0) return true;
 		else return false;
 	}
-	
-	
 	
 	public abstract void update();
 	

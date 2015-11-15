@@ -4,7 +4,6 @@ public class InputUtility {
 	private static boolean[] keyPressed = new boolean[256];
 	
 	public InputUtility(){
-
 	}
 	
 	public static boolean getKeyPressed(int key){

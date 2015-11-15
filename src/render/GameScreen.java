@@ -45,7 +45,7 @@ public class GameScreen extends JComponent{
 		g2d.clearRect(0, 0, 640, 480);
 		
 			for(IRenderable entity : RenderableHolder.getInstance().getRenderableList()){
-				if(entity.isVisible() && !entity.isBlink()){
+				if(entity.isVisible() && !entity.getFlashing()){
 					entity.draw(g2d);
 				}
 			}

@@ -20,7 +20,7 @@ public class Luffy extends Character
 	private int[] countPic= new int[3];
 	private int jumpMax = 10;
 	private int count=1;
-	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack =false;
+	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack;
 	private Player player;
 	private Character enemy;
 	
@@ -32,6 +32,7 @@ public class Luffy extends Character
 		isAttack = false;
 		isRun = false;
 		isJump = false;
+		isRight = true;
 		luffy = Resource.luffy.getSubimage(278, 40, 60, 58);
 		for(int a:countPic)	a=0;
 		
@@ -134,12 +135,13 @@ public class Luffy extends Character
 			countPic[0]++;
 			if(countPic[0]==8)countPic[0]=0;
 		}else{
+			System.out.println("stand");
 			luffy = Resource.luffy.getSubimage(278, 40, 53, 51);
 			width = 53;
 			height = 51;
 			for(int a :countPic)	a=0;
 		}
-	
+		
 		if(isAttack){
 			luffy = Resource.luffy.getSubimage(39+countPic[2]*40, 228, 45, 55);
 			width = 45;
@@ -169,6 +171,12 @@ public class Luffy extends Character
 			enemy.attacked(attackPower);
 			isDoubleAttack=true;
 		}
+	}
+
+	@Override
+	public void hitByEnemy() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
