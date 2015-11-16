@@ -20,7 +20,7 @@ public class Pikachu extends Character
 	private int jumpMax = 10;
 	private int count = 1;
 	private int flashCounter,flashDurationCounter;
-	private int width = 25,height = 28;
+	private int width = 25,height = 30;
 	private int xp=0,yp=0;
 	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack;
 	private Player player;
@@ -28,8 +28,9 @@ public class Pikachu extends Character
 
 	public Pikachu(int ap, int dp, int hp, int mp,Player player) {
 		super(10, dp, 100, mp);
+		indexC = 0;
 		x=50;
-		y=320;
+		y=373-height;
 		this.player = player;
 		isAttack = false;
 		isRun = false;
@@ -45,25 +46,25 @@ public class Pikachu extends Character
 	}
 	
 	public boolean collideWith(Character ch){
-		System.out.println(ch);
-		System.out.println((x+width/2)+" "+(ch.x+ch.width/2)+" asd "+(width/2+ch.width));
-		if( Math.hypot((x+width/2)-(ch.x+ch.width/2),y-ch.y) <= width/2+ch.width){
+//		System.out.println(ch);
+//		System.out.println((x+width/2)+" "+(ch.x+ch.width/2)+" asd "+(width/2+ch.width));
+		if( Math.hypot((x+width/2)-(ch.x+ch.width/2),y-ch.y) <= width+ch.width/2){
 			return true;
 		}
 		return false;
 	}
 	
 	public void update(){
-		System.out.println(healthPoint);
+//		System.out.println(healthPoint);
 		//If release
 		if(!InputUtility.getKeyPressed(player.getLeft()) && !InputUtility.getKeyPressed(player.getRight())){
 			isRun=false;
-			System.out.println("stop");
+//			System.out.println("stop");
 		}
 		
 		//Change Y isJump
 		if(isJump){
-			System.out.println("jump");
+//			System.out.println("jump");
 			if(count <= jumpMax) {
 				y -= 20;
 				count++;
@@ -77,7 +78,7 @@ public class Pikachu extends Character
 		
 		//Change image
 		if(isJump){
-			System.out.println("jump");
+//			System.out.println("jump");
 			if(countPic[1]>3){
 				countPic[1] = 0;
 			}
@@ -93,7 +94,7 @@ public class Pikachu extends Character
 			}
 			
 		}else if(isRun){
-			System.out.println("run");
+//			System.out.println("run");
 			isAttack = false;
 			pikachu = Resource.pikachu.getSubimage(39+countPic[0]*25, 147, 25, 28);
 			width = 25;
@@ -101,14 +102,14 @@ public class Pikachu extends Character
 			countPic[0]++;
 			if(countPic[0]==6)countPic[0]=0;
 		}else{
-			System.out.println("stand");
+//			System.out.println("stand");
 			pikachu = Resource.pikachu.getSubimage(102, 4, 25, 28);
 			width = 25;
 			height = 28;
 			countPic[0]=0;
 		}
 		if(isAttack){
-			System.out.println("attack");
+//			System.out.println("attack");
 			pikachu = Resource.pikachu.getSubimage(1+countPic[2]*28, 181, 28, 25);
 			width = 28;
 			height = 25;
@@ -126,7 +127,7 @@ public class Pikachu extends Character
 		}
 		transform();	
 		if(isAttack && collideWith(enemy) && !isDoubleAttack){
-			System.out.println("attack2");
+//			System.out.println("attack2");
 			enemy.setAttacked(true);
 			enemy.attacked(attackPower);
 			isDoubleAttack = true;

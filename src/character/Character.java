@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import render.IRenderable;
 
 public abstract class Character implements Playable{
+	public int indexC;
 	protected int attackPower;
 	protected int defencePower;
 	protected int healthPoint;

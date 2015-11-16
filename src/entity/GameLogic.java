@@ -22,6 +22,10 @@ public class GameLogic {
 		player2 = new Player(KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_W);
 		character2 = (Playable) player2.getCharacter()[1];
 		RenderableHolder.getInstance().add(character2);
+		
+		StatusBar sb = new StatusBar((Character)character1, (Character)character2);
+		RenderableHolder.getInstance().add(sb);
+		
 	}
 	
 	public void logicUpdate(){

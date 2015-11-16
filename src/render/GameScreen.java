@@ -41,8 +41,9 @@ public class GameScreen extends JComponent{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
 		//Background
-		g2d.setBackground(Color.WHITE);
-		g2d.clearRect(0, 0, 640, 480);
+		g.drawImage(Resource.bg[0],0,0,640,480,null);
+//		g2d.setBackground(Color.WHITE);
+//		g2d.clearRect(0, 0, 640, 480);
 		
 			for(IRenderable entity : RenderableHolder.getInstance().getRenderableList()){
 				if(entity.isVisible() && !entity.getFlashing()){
