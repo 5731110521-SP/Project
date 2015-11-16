@@ -19,7 +19,7 @@ public class Pikachu extends Character
 	private int[] countPic= new int[3];
 	private int jumpMax = 10;
 	private int count = 1;
-	private int flashCounter,flashDurationCounter,counter;
+	private int flashCounter,flashDurationCounter;
 	private int width = 25,height = 28;
 	private int xp=0,yp=0;
 	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack;
@@ -132,38 +132,19 @@ public class Pikachu extends Character
 			isDoubleAttack = true;
 		}
 		
-//		if(isAttacked && flashing){
-//			if(flashCounter == 0){
-//				isVisible = true;
-//				flashing = false;
-//			}else{
-//				if(flashDurationCounter > 0){
-//					isVisible = flashCounter <= 5;
-//					flashDurationCounter--;
-//				}else{
-//					isVisible = true;
-//					flashDurationCounter = 10;
-//					flashCounter--;
-//				}
-//			}
-//		}
-		if(isAttacked && flashing && counter ==0){
+		if(isAttacked && flashing && flashDurationCounter%2==0){
 			flashing = false;
-			counter++;
-		}else if(isAttacked && !flashing && counter ==1){
+			flashDurationCounter++;
+		}else if(isAttacked && !flashing && flashDurationCounter%2==1){
 			flashing = true;
-			counter++;
-		}else if(isAttacked && flashing && counter ==2){
-			flashing = false;
-			counter++;
-		}else if(isAttacked && !flashing && counter ==3){
-			flashing = true;
-			counter++;
-		}else if(isAttacked && flashing && counter ==4) {
+			flashDurationCounter++;
+		}
+		if(isAttacked && flashDurationCounter==flashCounter){
 			flashing = false;
 			isAttacked = false;
-			counter=0;
+			flashDurationCounter = 0;
 		}
+	
 	}
 
 	@Override
@@ -204,8 +185,8 @@ public class Pikachu extends Character
 
 	@Override
 	public void hitByEnemy() {
-		flashCounter = 0;
-		flashDurationCounter = 10;
+		flashCounter = 5;
+		flashDurationCounter = 0;
 	}
 
 }

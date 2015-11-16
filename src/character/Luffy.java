@@ -18,6 +18,7 @@ public class Luffy extends Character
 	private int xp=0,yp=0;
 	private int width = 53,height = 51;
 	private int[] countPic= new int[3];
+	private int flashCounter,flashDurationCounter;
 	private int jumpMax = 10;
 	private int count=1;
 	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack;
@@ -171,12 +172,25 @@ public class Luffy extends Character
 			enemy.attacked(attackPower);
 			isDoubleAttack=true;
 		}
+		
+		if(isAttacked && flashing && flashDurationCounter%2==0){
+			flashing = false;
+			flashDurationCounter++;
+		}else if(isAttacked && !flashing && flashDurationCounter%2==1){
+			flashing = true;
+			flashDurationCounter++;
+		}
+		if(isAttacked && flashDurationCounter==flashCounter){
+			flashing = false;
+			isAttacked = false;
+			flashDurationCounter = 0;
+		}
 	}
 
 	@Override
 	public void hitByEnemy() {
-		// TODO Auto-generated method stub
-		
+		flashCounter = 5;
+		flashDurationCounter = 0;
 	}
 
 }
