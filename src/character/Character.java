@@ -14,6 +14,7 @@ public abstract class Character implements Playable{
 	protected int maxPower;
 	protected boolean lose;
 	protected int x,y,width,height;
+	protected int xp=0,yp=0;
 	protected boolean isAttacked,isVisible;
 	protected boolean flashing= false;
 	

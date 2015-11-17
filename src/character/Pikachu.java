@@ -18,8 +18,6 @@ public class Pikachu extends Character
 	private int jumpMax = 10;
 	private int count = 1;
 	private int flashCounter,flashDurationCounter;
-	private int width = 25,height = 30;
-	private int xp=0,yp=0;
 	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack,isShoot;
 	private Player player;
 	private Character enemy;
@@ -27,6 +25,8 @@ public class Pikachu extends Character
 	public Pikachu(int ap, int dp, int hp, int mp,Player player) {
 		super(10, dp, 40, mp);
 		indexC = 0;
+		width = 25;
+		height = 30;
 		x=50;
 		y=373-height;
 		this.player = player;
@@ -44,14 +44,15 @@ public class Pikachu extends Character
 	}
 	
 	public boolean collideWith(Character ch){
-		if( Math.hypot((x+width/2)-(ch.x+ch.width/2),y-ch.y) <= width+ch.width/2){
+		if(Math.abs((x-xp+width/2.0)-(ch.x-ch.xp+ch.width/2.0)) <= width/2.0+ch.width/2.0 
+				&& Math.abs((y-yp+height/2.0)-(ch.y-ch.yp+ch.height/2.0)) <= height/2.0+ch.height/2.0){
 			return true;
 		}
 		return false;
 	}
 	
 	public void update(){
-		System.out.println("pikachu"+healthPoint);
+//		System.out.println("pikachu"+healthPoint);
 		//If release
 		if(!InputUtility.getKeyPressed(player.getLeft()) && !InputUtility.getKeyPressed(player.getRight())){
 			isRun=false;

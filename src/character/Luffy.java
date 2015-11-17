@@ -19,8 +19,6 @@ public class Luffy extends Character
 	private int jumpMax = 10;
 	private int count=1;
 	private int flashCounter,flashDurationCounter,counter;
-	private int width = 53,height = 51;
-	private int xp=0,yp=0;
 	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack,isShoot;
 	private Player player;
 	private Character enemy;
@@ -28,6 +26,8 @@ public class Luffy extends Character
 	public Luffy(int ap, int dp, int hp, int mp,Player player) {
 		super(10, dp, 30, mp);
 		indexC = 1;
+		width = 53;
+		height = 51;
 		x=100;
 		y=373-height;
 		this.player = player;
@@ -58,7 +58,8 @@ public class Luffy extends Character
 	}
 	
 	public boolean collideWith(Character ch){
-		if( Math.hypot((x-xp+width/2)-(ch.x+ch.width/2),y-ch.y) <= width/2+ch.width){
+		if(Math.abs((x-xp+width/2.0)-(ch.x-ch.xp+ch.width/2.0)) <= width/2.0+ch.width/2.0 
+				&& Math.abs((y-yp+height/2.0)-(ch.y-ch.yp+ch.height/2.0)) <= height/2.0+ch.height/2.0){
 			return true;
 		}
 		return false;
@@ -97,7 +98,7 @@ public class Luffy extends Character
 
 	@Override
 	public void update() {
-		System.out.println("luffy"+healthPoint);
+//		System.out.println("luffy"+healthPoint);
 		if(!InputUtility.getKeyPressed(player.getLeft()) && !InputUtility.getKeyPressed(player.getRight())){
 			isRun=false;
 		}

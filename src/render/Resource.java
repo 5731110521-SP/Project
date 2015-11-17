@@ -13,7 +13,7 @@ public class Resource {
 	public static final Font standardFont = new Font("Tahoma", Font.BOLD, 30);
 	public static BufferedImage pikachu;
 	public static BufferedImage luffy;
-	public static BufferedImage[] bg = new BufferedImage[1];
+	public static BufferedImage bg;
 	public static BufferedImage[] pic = new BufferedImage[2];
 	public static AudioClip coinSound;
 	
@@ -22,7 +22,7 @@ public class Resource {
 			ClassLoader loader = RenderableHolder.class.getClassLoader();
 			pikachu = ImageIO.read(loader.getResource("res/p.gif"));
 			luffy = ImageIO.read(loader.getResource("res/luffy.png"));
-			bg[0]= ImageIO.read(loader.getResource("res/bg-01.png"));
+			bg= ImageIO.read(loader.getResource("res/bg-01.png"));
 			
 			pic[0]= ImageIO.read(loader.getResource("res/pikachupic-01.png"));
 			pic[1]= ImageIO.read(loader.getResource("res/luffypic-02.png"));

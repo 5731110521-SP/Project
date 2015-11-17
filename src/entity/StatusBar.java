@@ -21,11 +21,11 @@ public class StatusBar implements IRenderable{
 	@Override
 	public void draw(Graphics2D g) {
 		// TODO Auto-generated method stub
-		Graphics2D g2d = (Graphics2D)g;
+		
 		//HpBar 290x21
-		g2d.setBackground(Color.RED);
-		g2d.clearRect(9, 50, (int)(c1.getHealthPoint()/100.0*290), 21);
-		g2d.clearRect(341+290-(int)(c2.getHealthPoint()/100.0*290), 50, (int)(c2.getHealthPoint()/100.0*290), 21);
+		g.setBackground(Color.RED);
+		g.clearRect(9, 50, (int)(c1.getHealthPoint()/100.0*290), 21);
+		g.clearRect(341+290-(int)(c2.getHealthPoint()/100.0*290), 50, (int)(c2.getHealthPoint()/100.0*290), 21);
 		
 		//CharacterPic 100x35
 		BufferedImage c1Pic = Resource.pic[c1.indexC];
