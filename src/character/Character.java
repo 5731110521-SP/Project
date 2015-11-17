@@ -2,6 +2,8 @@ package character;
 
 import java.awt.Graphics2D;
 
+import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
+
 import render.IRenderable;
 
 public abstract class Character implements Playable{
@@ -85,13 +87,13 @@ public abstract class Character implements Playable{
 	public abstract void jump();
 
 	public abstract void attack(Character c);
-
-	public void shoot(int attack) {
-		// TODO Auto-generated method stub
-	}
+	
+	public abstract void shoot(Character c);
 	
 	public void attacked(int amount){
 		healthPoint -= amount;
+		if(healthPoint == 0) lose = true;
+		if(healthPoint < 0) healthPoint = 0;
 		isAttacked = true;
 		flashing = true;
 		hitByEnemy();

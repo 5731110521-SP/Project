@@ -15,18 +15,18 @@ import render.Resource;
 public class Luffy extends Character
 					implements IRenderable{
 	BufferedImage luffy;
-	private int[] countPic= new int[3];
+	private int[] countPic= new int[5];
 	private int jumpMax = 10;
 	private int count=1;
 	private int flashCounter,flashDurationCounter,counter;
 	private int width = 53,height = 51;
 	private int xp=0,yp=0;
-	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack;
+	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack,isShoot;
 	private Player player;
 	private Character enemy;
 	
 	public Luffy(int ap, int dp, int hp, int mp,Player player) {
-		super(5, dp, 100, mp);
+		super(10, dp, 30, mp);
 		indexC = 1;
 		x=100;
 		y=373-height;
@@ -58,8 +58,6 @@ public class Luffy extends Character
 	}
 	
 	public boolean collideWith(Character ch){
-//		System.out.println(ch);
-//		System.out.println((x-xp+width/2)+" "+(ch.x+ch.width/2)+" asd "+(width/2+ch.width));
 		if( Math.hypot((x-xp+width/2)-(ch.x+ch.width/2),y-ch.y) <= width/2+ch.width){
 			return true;
 		}
@@ -99,7 +97,7 @@ public class Luffy extends Character
 
 	@Override
 	public void update() {
-//		System.out.println(healthPoint);
+		System.out.println("luffy"+healthPoint);
 		if(!InputUtility.getKeyPressed(player.getLeft()) && !InputUtility.getKeyPressed(player.getRight())){
 			isRun=false;
 		}
@@ -137,7 +135,6 @@ public class Luffy extends Character
 			countPic[0]++;
 			if(countPic[0]==8)countPic[0]=0;
 		}else{
-//			System.out.println("stand");
 			luffy = Resource.luffy.getSubimage(278, 40, 53, 51);
 			width = 53;
 			height = 51;
@@ -167,11 +164,29 @@ public class Luffy extends Character
 			}
 		}
 		
+		if(isShoot){
+
+		}
+		
+		if(lose){
+			if(countPic[3] <3) 
+				luffy = Resource.luffy.getSubimage(261+(countPic[3]*56), 890, 56, 43);
+			countPic[3]++;
+			if(countPic[3] >= 3) 
+				luffy = Resource.luffy.getSubimage(261+(2*56), 890, 56, 43);
+		}
+		
 		transform();
 		if(isAttack && collideWith(enemy) && !isDoubleAttack){
 			enemy.setAttacked(true);
 			enemy.attacked(attackPower);
 			isDoubleAttack=true;
+		}
+		
+		if(isShoot && collideWith(enemy) &&!isDoubleAttack){
+			enemy.setAttacked(true);
+			enemy.attacked(maxPower);
+			isDoubleAttack = true;
 		}
 		
 		if(isAttacked && flashing && flashDurationCounter%2==0){
@@ -186,12 +201,19 @@ public class Luffy extends Character
 			isAttacked = false;
 			flashDurationCounter = 0;
 		}
+
 	}
 
 	@Override
 	public void hitByEnemy() {
 		flashCounter = 5;
 		flashDurationCounter = 0;
+	}
+
+	@Override
+	public void shoot(Character c) {
+		isShoot = true;
+		this.enemy = c;
 	}
 
 }
