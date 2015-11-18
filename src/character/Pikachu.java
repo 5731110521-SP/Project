@@ -23,7 +23,7 @@ public class Pikachu extends Character
 	private Character enemy;
 
 	public Pikachu(int ap, int dp, int hp, int mp,Player player) {
-		super(10, dp, 40, mp);
+		super(10, dp, 100, mp);
 		indexC = 0;
 		width = 25;
 		height = 30;
@@ -39,7 +39,7 @@ public class Pikachu extends Character
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(pikachu,x-xp,y-yp,width,height,null);
+		g.drawImage(pikachu,x-xp,y-yp,width*2,height*2,null);
 		xp=0;
 	}
 	

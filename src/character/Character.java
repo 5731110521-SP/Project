@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
 
+import entity.Player;
 import render.IRenderable;
 
 public abstract class Character implements Playable{
@@ -17,6 +18,10 @@ public abstract class Character implements Playable{
 	protected int xp=0,yp=0;
 	protected boolean isAttacked,isVisible;
 	protected boolean flashing= false;
+	protected int flashCounter,flashDurationCounter,counter;
+	protected boolean isRun,isRight,isJump,isAttack,isDoubleAttack,isShoot;
+	protected Player player;
+	protected Character enemy;
 	
 	public Character(int ap,int dp,int hp, int mp){
 		attackPower = ap;

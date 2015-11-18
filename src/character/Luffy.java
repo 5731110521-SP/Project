@@ -18,13 +18,9 @@ public class Luffy extends Character
 	private int[] countPic= new int[5];
 	private int jumpMax = 10;
 	private int count=1;
-	private int flashCounter,flashDurationCounter,counter;
-	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack,isShoot;
-	private Player player;
-	private Character enemy;
 	
 	public Luffy(int ap, int dp, int hp, int mp,Player player) {
-		super(10, dp, 30, mp);
+		super(10, dp, 100, mp);
 		indexC = 1;
 		width = 53;
 		height = 51;
@@ -42,7 +38,7 @@ public class Luffy extends Character
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(luffy,x-xp,y-yp,width, height,null);
+		g.drawImage(luffy,x-xp,y-yp,width*2, height*2,null);
 		xp=0;
 	}
 
