@@ -25,13 +25,13 @@ public class StatusBar implements IRenderable{
 	public void draw(Graphics2D g) {
 		
 		//hpbarUnder
-		g.drawImage(Resource.hpbarUnder, 6-3, 49+3,296,21, null);
+//		g.drawImage(Resource.hpbarUnder, 6-3, 49+3,296,21, null);
 		AffineTransform at = new AffineTransform();
 		at = AffineTransform.getScaleInstance(-1, 1);
-		at.translate(-Resource.hpbarUnder.getWidth(null), 0);
+//		at.translate(-Resource.hpbarUnder.getWidth(null), 0);
 		AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		BufferedImage image = op.filter(Resource.hpbarUnder, null);
-		g.drawImage(image , 338+3, 49+3,296,21, null);
+//		BufferedImage image = op.filter(Resource.hpbarUnder, null);
+//		g.drawImage(image , 338+3, 49+3,296,21, null);
 		
 		//HpBar 290x21
 		g.setComposite(transcluentWhite);
@@ -41,9 +41,9 @@ public class StatusBar implements IRenderable{
 		g.setComposite(opaque);
 		
 		//hpbarUpper
-		g.drawImage(Resource.hpbarUpper, 6, 49,296,21, null);
-		image = op.filter(Resource.hpbarUpper, null);
-		g.drawImage(image, 338, 49,296,21, null);
+//		g.drawImage(Resource.hpbarUpper, 6, 49,296,21, null);
+//		image = op.filter(Resource.hpbarUpper, null);
+//		g.drawImage(image, 338, 49,296,21, null);
 		
 		
 		//CharacterPic 100x35

@@ -7,23 +7,25 @@ import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
 import entity.Player;
 import render.IRenderable;
 
-public abstract class Character implements Playable{
+public abstract class Character implements Playable {
+
 	public int indexC;
 	protected int attackPower;
 	protected int defencePower;
 	protected int healthPoint;
 	protected int maxPower;
 	protected boolean lose;
-	protected int x,y,width,height;
-	protected int xp=0,yp=0;
-	protected boolean isAttacked,isVisible;
-	protected boolean flashing= false;
-	protected int flashCounter,flashDurationCounter,counter;
-	protected boolean isRun,isRight,isJump,isAttack,isDoubleAttack,isShoot;
+	protected int x, y, width, height;
+	protected int xp = 0, yp = 0;
+	protected boolean isAttacked, isVisible;
+	protected boolean flashing = false;
+	protected int flashCounter, flashDurationCounter, counter,countShoot;
+	protected boolean isRun, isRight, isJump, isAttack, isDoubleAttack,
+			isShoot;
 	protected Player player;
 	protected Character enemy;
-	
-	public Character(int ap,int dp,int hp, int mp){
+
+	public Character(int ap, int dp, int hp, int mp) {
 		attackPower = ap;
 		defencePower = dp;
 		healthPoint = hp;
@@ -32,22 +34,55 @@ public abstract class Character implements Playable{
 		isAttacked = false;
 		isVisible = true;
 	}
+	
+	public boolean isRight() {
+		return isRight;
+	}
+
+	public Character getEnemy() {
+		return enemy;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getXp() {
+		return xp;
+	}
+
+	public int getYp() {
+		return yp;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
 	public void setLose(boolean lose) {
 		this.lose = lose;
 	}
-	
+
 	public void setVisible(boolean isVisible) {
 		this.isVisible = isVisible;
 	}
-	
+
 	public boolean isVisible() {
 		return isVisible;
 	}
-	
+
 	public void setAttacked(boolean isAttacked) {
 		this.isAttacked = isAttacked;
 	}
-	
+
 	public int getAttackPower() {
 		return attackPower;
 	}
@@ -79,37 +114,41 @@ public abstract class Character implements Playable{
 	public void setMaxPower(int maxPower) {
 		this.maxPower = maxPower;
 	}
-	
-	public boolean getFlashing(){
+
+	public boolean getFlashing() {
 		return flashing;
 	}
-	
+
 	public abstract void hitByEnemy();
-	
+
 	public abstract void transform();
-	
+
 	public abstract void run(boolean isRight);
 
 	public abstract void jump();
 
 	public abstract void attack(Character c);
-	
+
 	public abstract void shoot(Character c);
-	
-	public void attacked(int amount){
+
+	public void attacked(int amount) {
 		healthPoint -= amount;
-		if(healthPoint == 0) lose = true;
-		if(healthPoint < 0) healthPoint = 0;
+		if (healthPoint == 0)
+			lose = true;
+		if (healthPoint < 0)
+			healthPoint = 0;
 		isAttacked = true;
 		flashing = true;
 		hitByEnemy();
 	}
-	
-	public boolean isLose(){
-		if(healthPoint <= 0) return true;
-		else return false;
+
+	public boolean isLose() {
+		if (healthPoint <= 0)
+			return true;
+		else
+			return false;
 	}
-	
+
 	public abstract void update();
-	
+
 }

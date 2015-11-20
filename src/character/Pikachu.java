@@ -8,7 +8,9 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import entity.Player;
+import entity.Shootable;
 import render.IRenderable;
+import render.RenderableHolder;
 import render.Resource;
 
 public class Pikachu extends Character
@@ -17,10 +19,6 @@ public class Pikachu extends Character
 	private int[] countPic= new int[4];
 	private int jumpMax = 10;
 	private int count = 1;
-	private int flashCounter,flashDurationCounter;
-	private boolean isRun,isRight,isJump,isAttack,isDoubleAttack,isShoot;
-	private Player player;
-	private Character enemy;
 
 	public Pikachu(int ap, int dp, int hp, int mp,Player player) {
 		super(10, dp, 100, mp);
@@ -34,12 +32,13 @@ public class Pikachu extends Character
 		isRun = false;
 		isJump = false;
 		isRight = true;
+		countShoot = 5;
 		pikachu = Resource.pikachu.getSubimage(102, 4, 25, 28);
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(pikachu,x-xp,y-yp,width*2,height*2,null);
+		g.drawImage(pikachu,x-xp,y-yp,width,height,null);
 		xp=0;
 	}
 	
@@ -136,7 +135,8 @@ public class Pikachu extends Character
 			isAttacked = false;
 			flashDurationCounter = 0;
 		}
-	
+		
+		countShoot++;
 	}
 
 	@Override
@@ -185,6 +185,11 @@ public class Pikachu extends Character
 	public void shoot(Character c) {
 		isShoot = true;
 		this.enemy = c;
+		if(countShoot >= 10){
+			RenderableHolder.getInstance().add(new Shootable(this));
+			countShoot=0;
+		}
+		
 	}
 
 }

@@ -7,6 +7,7 @@ import character.Luffy;
 import character.Pikachu;
 import character.Playable;
 import input.InputUtility;
+import render.GameScreen;
 import render.IRenderable;
 import render.RenderableHolder;
 
@@ -28,7 +29,7 @@ public class GameLogic {
 		
 		StatusBar sb = new StatusBar((Character)character1, (Character)character2);
 		RenderableHolder.getInstance().add(sb);
-		
+
 	}
 	
 	public void logicUpdate(){
@@ -45,6 +46,10 @@ public class GameLogic {
 			if(!((Character) character1).isLose())
 			((Character) character1).attack((Character)(character2));
 			else return;
+		}else if(InputUtility.getKeyPressed(KeyEvent.VK_ENTER)){
+			if(!((Character) character1).isLose())
+				((Character) character1).shoot(((Character) character2));
+				else return;
 		}
 		
 		if(InputUtility.getKeyPressed(KeyEvent.VK_UP)){

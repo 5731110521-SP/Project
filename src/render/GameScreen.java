@@ -12,9 +12,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JComponent;
 
 public class GameScreen extends JComponent{
+	public static int width;
+	public static int height;
 	public GameScreen(){
 		super();
 		this.setPreferredSize(new Dimension(640,480));
+		this.width = 640;
+		this.height = 480;
 		this.setDoubleBuffered(true);
 		this.setVisible(true);
 		this.requestFocus();

@@ -25,8 +25,8 @@ public class Resource {
 			pikachu = ImageIO.read(loader.getResource("res/p.gif"));
 			luffy = ImageIO.read(loader.getResource("res/luffy.png"));
 			bg= ImageIO.read(loader.getResource("res/bg-01.png"));
-			hpbarUnder = ImageIO.read(loader.getResource("res/hpbarUnder-02.png"));
-			hpbarUpper = ImageIO.read(loader.getResource("res/hpbarUpper-02.png"));
+//			hpbarUnder = ImageIO.read(loader.getResource("res/hpbarUnder-02.png"));
+//			hpbarUpper = ImageIO.read(loader.getResource("res/hpbarUpper-02.png"));
 			
 			pic[0]= ImageIO.read(loader.getResource("res/pikachupic-01.png"));
 			pic[1]= ImageIO.read(loader.getResource("res/luffypic-02.png"));

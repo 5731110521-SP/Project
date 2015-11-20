@@ -9,13 +9,15 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import entity.Player;
+import entity.Shootable;
 import render.IRenderable;
+import render.RenderableHolder;
 import render.Resource;
 
 public class Luffy extends Character
 					implements IRenderable{
 	BufferedImage luffy;
-	private int[] countPic= new int[5];
+	private int[] countPic= new int[6];
 	private int jumpMax = 10;
 	private int count=1;
 	
@@ -31,6 +33,8 @@ public class Luffy extends Character
 		isRun = false;
 		isJump = false;
 		isRight = true;
+		isShoot=false;
+		countShoot=0;
 		luffy = Resource.luffy.getSubimage(278, 40, 60, 58);
 		for(int a:countPic)	a=0;
 		
@@ -38,7 +42,7 @@ public class Luffy extends Character
 	
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(luffy,x-xp,y-yp,width*2, height*2,null);
+		g.drawImage(luffy,x-xp,y-yp,width, height,null);
 		xp=0;
 	}
 
@@ -94,7 +98,6 @@ public class Luffy extends Character
 
 	@Override
 	public void update() {
-//		System.out.println("luffy"+healthPoint);
 		if(!InputUtility.getKeyPressed(player.getLeft()) && !InputUtility.getKeyPressed(player.getRight())){
 			isRun=false;
 		}
@@ -161,10 +164,6 @@ public class Luffy extends Character
 			}
 		}
 		
-		if(isShoot){
-
-		}
-		
 		if(lose){
 			if(countPic[3] <3) 
 				luffy = Resource.luffy.getSubimage(261+(countPic[3]*56), 890, 56, 43);
@@ -172,6 +171,23 @@ public class Luffy extends Character
 			if(countPic[3] >= 3) 
 				luffy = Resource.luffy.getSubimage(261+(2*56), 890, 56, 43);
 		}
+		
+		if(isShoot){
+			luffy = Resource.luffy.getSubimage(154, 618, 57, 53);
+			width=57;
+			height=53;
+			countPic[5]++;
+			if(countPic[5] == 1)
+				luffy = Resource.luffy.getSubimage(278, 621, 56, 53);
+			else if(countPic[5] ==2)
+				luffy = Resource.luffy.getSubimage(400, 619, 55, 53);
+			else if(countPic[5] == 3){
+				luffy = Resource.luffy.getSubimage(532, 622, 49, 48);
+				isShoot = false;
+				countPic[5] = 0;
+			}
+		}
+		countShoot++;
 		
 		transform();
 		if(isAttack && collideWith(enemy) && !isDoubleAttack){
@@ -209,8 +225,12 @@ public class Luffy extends Character
 
 	@Override
 	public void shoot(Character c) {
-		isShoot = true;
 		this.enemy = c;
+		if(countShoot >= 10){
+			RenderableHolder.getInstance().add(new Shootable(this));
+			countShoot=0;
+			isShoot = true;
+		}
 	}
 
 }
