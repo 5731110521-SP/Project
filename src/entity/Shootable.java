@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 import character.Character;
 import character.Luffy;
+import character.Naruto;
 import character.Pikachu;
 import render.GameScreen;
 import render.IRenderable;
@@ -35,6 +36,10 @@ public class Shootable implements IRenderable{
 			height=20;
 		}else if(ch instanceof Luffy){
 			shootOject = Resource.luffy.getSubimage(214, 631, 50, 18);
+			width=shootOject.getWidth();
+			height=shootOject.getHeight();
+		}else if(ch instanceof Naruto){
+			shootOject = Resource.narutoBall.getSubimage(0, 0, 24, 26);
 			width=shootOject.getWidth();
 			height=shootOject.getHeight();
 		}

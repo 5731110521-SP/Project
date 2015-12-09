@@ -15,6 +15,7 @@ public class Resource {
 	public static BufferedImage pikachu;
 	public static BufferedImage luffy;
 	public static BufferedImage naruto;
+	public static BufferedImage narutoBall;
 	public static BufferedImage bg;
 	public static BufferedImage[] pic = new BufferedImage[2];
 	public static BufferedImage hpbarUnder,hpbarUpper;
@@ -25,7 +26,8 @@ public class Resource {
 			ClassLoader loader = RenderableHolder.class.getClassLoader();
 			pikachu = ImageIO.read(loader.getResource("res/p.gif"));
 			luffy = ImageIO.read(loader.getResource("res/luffy.png"));
-			naruto = ImageIO.read(loader.getResource("res/naruto.png"))
+			naruto = ImageIO.read(loader.getResource("res/naruto.png"));
+			narutoBall = ImageIO.read(loader.getResource("res/narutoBall.png"));
 ;			bg= ImageIO.read(loader.getResource("res/bg-01.png"));
 			hpbarUnder = ImageIO.read(loader.getResource("res/hpbarUnder-02.png"));
 			hpbarUpper = ImageIO.read(loader.getResource("res/hpbarUpper-02.png"));

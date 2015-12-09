@@ -107,6 +107,12 @@ public class Pikachu extends Character
 				isDoubleAttack = false;
 			}
 		}
+		if(lose){
+			pikachu = Resource.pikachu.getSubimage(102, 4, 25, 28);
+			AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(-90), width/2, height/2);
+			AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
+			pikachu = op.filter(pikachu, null);
+		}
 		
 		transform();	
 		if(isAttack && collideWith(enemy) && !isDoubleAttack){;

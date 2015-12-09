@@ -16,12 +16,12 @@ import render.Resource;
 public class Naruto extends Character
 					implements IRenderable{
 	BufferedImage naruto;
-	private int[] countPic= new int[4];
+	private int[] countPic= new int[6];
 	private int jumpMax = 10;
 	private int count = 1;
 	
 	public Naruto(int ap, int dp, int hp,Player player) {
-		super(20, 20, 100);
+		super(20, 0, 100);
 		indexC = 0;
 		width = 53;
 		height = 61;
@@ -38,8 +38,10 @@ public class Naruto extends Character
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(naruto,x-xp,y-yp,width,height,null);
+		g.drawImage(naruto,x-xp,y+yp,width,height,null);
+		System.out.println(width);
 		xp=0;
+		yp=0;
 	}
 
 	@Override
@@ -61,7 +63,7 @@ public class Naruto extends Character
 			at.translate(-naruto.getWidth(null), 0);
 			AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 			naruto = op.filter(naruto, null);
-			if(width>25) xp=width-25;
+			if(width>46) xp=width-43;
 		}
 	}
 
@@ -92,7 +94,7 @@ public class Naruto extends Character
 				if(!InputUtility.getKeyPressed(player.getLeft()) && !InputUtility.getKeyPressed(player.getRight())){
 					isRun=false;
 				}
-				
+				System.out.println(count +" "+countPic[1]);
 				//Change Y isJump
 				if(isJump){
 					if(count <= jumpMax) {
@@ -109,22 +111,26 @@ public class Naruto extends Character
 				//Change image
 				if(isJump){
 					if(countPic[1] < 3){
-						if(countPic[1] == 0)
+						if(countPic[1] == 0){
 							naruto = Resource.naruto.getSubimage(1, 146, 42, 44);
-						else if(countPic[1] == 1)
+							width=42;
+							height=44;
+						}else if(countPic[1] == 1)
 							naruto = Resource.naruto.getSubimage(110, 135, 41, 68);
-						else if(countPic[1] == 2)
+						else if(countPic[1] == 2){
 							naruto = Resource.naruto.getSubimage(163, 135, 51, 66);
-						countPic[1]++;
+							width=51;
+							height=66;
+						}
 						if(countPic[1] == 3) {
-							countPic[1] = 0;
 							isJump=false;
+							countPic[1] = 0;
 						}
 					}
-					if(count==1) countPic[1]=1;
-					else if(count==jumpMax+1) countPic[1]=2;
-					else if(count==jumpMax*2) countPic[1]=3;
-					else if(countPic[1]>=3){
+					if(count==1) countPic[1]=0;
+					else if(count==jumpMax+1) countPic[1]=1;
+					else if(count==jumpMax*2) countPic[1]=2;
+					else if(countPic[1]>=2){
 						countPic[1] = 0;
 						isJump=false;
 					}
@@ -159,8 +165,6 @@ public class Naruto extends Character
 						naruto = Resource.naruto.getSubimage(209, 383, 58, 52);
 					else if(countPic[2] == 4)
 						naruto = Resource.naruto.getSubimage(274, 384, 51,53);
-					if(isRight) x += 20;
-					else x-=20;
 					countPic[2]++;
 					if(countPic[2]>=5) {
 						naruto = Resource.naruto.getSubimage(0, 0, 53, 61);
@@ -169,7 +173,46 @@ public class Naruto extends Character
 						isDoubleAttack = false;
 					}
 				}
-		
+				
+				if(lose){
+					if(countPic[3] == 0){
+						naruto = Resource.naruto.getSubimage(4, 221, 52, 56);
+						countPic[3]++;
+					}else if(countPic[3] == 1){
+						naruto = Resource.naruto.getSubimage(73, 217, 44, 55);
+						countPic[3]++;
+					}else if(countPic [3] == 2){
+						naruto = Resource.naruto.getSubimage(127, 220, 52, 50);
+						countPic[3]++;
+					}
+					else if(countPic[3] == 3){
+						naruto = Resource.naruto.getSubimage(192, 234, 64, 39);
+						height=39;
+						yp=61-39;
+					}
+				}
+				
+				if(isShoot){
+					if(countPic[5] == 0){
+						naruto = Resource.naruto.getSubimage(20, 543, 66, 59);
+						width=66;
+					}else if(countPic[5] == 1){
+						naruto = Resource.naruto.getSubimage(104, 544, 66, 58);
+					}else if(countPic[5] ==2){
+						naruto = Resource.naruto.getSubimage(188, 540, 67, 56);
+					}else if(countPic[5] == 3){
+						naruto = Resource.naruto.getSubimage(263, 533, 66, 58);
+					}else if(countPic[5] == 4){
+						naruto = Resource.naruto.getSubimage(339, 465, 55, 54);
+					}else if(countPic[5] == 5){
+						naruto = Resource.naruto.getSubimage(410, 463, 67, 51);
+						isShoot = false;
+						countPic[5] = -1;
+						width=53;
+					}
+					countPic[5]++;
+				}
+				
 				transform();	
 				if(isAttack && collideWith(enemy) && !isDoubleAttack){;
 					enemy.setAttacked(true);
@@ -190,7 +233,6 @@ public class Naruto extends Character
 					isAttacked = false;
 					flashDurationCounter = 0;
 				}
-				
 				countShoot++;
 	}
 
