@@ -9,11 +9,15 @@ import render.IRenderable;
 
 public abstract class Character implements Playable {
 
+	public int getPowerCount() {
+		return powerCount;
+	}
+
 	public int indexC;
 	protected int attackPower;
 	protected int defencePower;
 	protected int healthPoint;
-	protected int maxPower;
+	protected int powerCount;
 	protected boolean lose;
 	protected int x, y, width, height;
 	protected int xp = 0, yp = 0;
@@ -25,11 +29,11 @@ public abstract class Character implements Playable {
 	protected Player player;
 	protected Character enemy;
 
-	public Character(int ap, int dp, int hp, int mp) {
+	public Character(int ap, int dp, int hp) {
 		attackPower = ap;
 		defencePower = dp;
 		healthPoint = hp;
-		maxPower = mp;
+		powerCount=0;
 		lose = false;
 		isAttacked = false;
 		isVisible = true;
@@ -107,14 +111,6 @@ public abstract class Character implements Playable {
 		this.healthPoint = healthPoint;
 	}
 
-	public int getMaxPower() {
-		return maxPower;
-	}
-
-	public void setMaxPower(int maxPower) {
-		this.maxPower = maxPower;
-	}
-
 	public boolean getFlashing() {
 		return flashing;
 	}
@@ -123,7 +119,19 @@ public abstract class Character implements Playable {
 
 	public abstract void transform();
 
-	public abstract void run(boolean isRight);
+	public void run(boolean isRight){
+		if(isAttack) return;
+		isRun=true;
+		this.isRight=isRight;
+		if(isRight)	{
+			x+=20;
+			if(x>=640-width) x = 640-width;
+		}
+		else  {
+			x-=20;
+			if(x<=0) x = 0;
+		}
+	}
 
 	public abstract void jump();
 
@@ -132,6 +140,8 @@ public abstract class Character implements Playable {
 	public abstract void shoot(Character c);
 
 	public void attacked(int amount) {
+		amount = amount-defencePower;
+		if(amount<=0) amount=1;
 		healthPoint -= amount;
 		if (healthPoint == 0)
 			lose = true;
@@ -140,6 +150,14 @@ public abstract class Character implements Playable {
 		isAttacked = true;
 		flashing = true;
 		hitByEnemy();
+	}
+	
+	public boolean collideWith(Character ch){
+		if(Math.abs((x-xp+width/2.0)-(ch.x-ch.xp+ch.width/2.0)) <= width/2.0+ch.width/2.0 
+				&& Math.abs((y-yp+height/2.0)-(ch.y-ch.yp+ch.height/2.0)) <= height/2.0+ch.height/2.0){
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isLose() {

@@ -20,8 +20,8 @@ public class Pikachu extends Character
 	private int jumpMax = 10;
 	private int count = 1;
 
-	public Pikachu(int ap, int dp, int hp, int mp,Player player) {
-		super(10, dp, 100, mp);
+	public Pikachu(int ap, int dp, int hp,Player player) {
+		super(10, dp, 100);
 		indexC = 0;
 		width = 25;
 		height = 30;
@@ -40,14 +40,6 @@ public class Pikachu extends Character
 	public void draw(Graphics2D g) {
 		g.drawImage(pikachu,x-xp,y-yp,width,height,null);
 		xp=0;
-	}
-	
-	public boolean collideWith(Character ch){
-		if(Math.abs((x-xp+width/2.0)-(ch.x-ch.xp+ch.width/2.0)) <= width/2.0+ch.width/2.0 
-				&& Math.abs((y-yp+height/2.0)-(ch.y-ch.yp+ch.height/2.0)) <= height/2.0+ch.height/2.0){
-			return true;
-		}
-		return false;
 	}
 	
 	public void update(){
@@ -121,6 +113,7 @@ public class Pikachu extends Character
 			enemy.setAttacked(true);
 			enemy.attacked(attackPower);
 			isDoubleAttack = true;
+			powerCount++;
 		}
 		
 		if(isAttacked && flashing && flashDurationCounter%2==0){
@@ -142,14 +135,6 @@ public class Pikachu extends Character
 	@Override
 	public int getZ() {
 		return 0;
-	}
-	
-	public void run(boolean isRight){
-		if(isAttack) return;
-		isRun=true;
-		this.isRight=isRight;
-		if(isRight)	x+=20;
-		else x-=20;
 	}
 
 	@Override

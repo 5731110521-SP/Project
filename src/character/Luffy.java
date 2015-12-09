@@ -21,8 +21,8 @@ public class Luffy extends Character
 	private int jumpMax = 10;
 	private int count=1;
 	
-	public Luffy(int ap, int dp, int hp, int mp,Player player) {
-		super(10, dp, 100, mp);
+	public Luffy(int ap, int dp, int hp,Player player) {
+		super(10, 5, 100);
 		indexC = 1;
 		width = 53;
 		height = 51;
@@ -57,14 +57,6 @@ public class Luffy extends Character
 		this.enemy = c;
 	}
 	
-	public boolean collideWith(Character ch){
-		if(Math.abs((x-xp+width/2.0)-(ch.x-ch.xp+ch.width/2.0)) <= width/2.0+ch.width/2.0 
-				&& Math.abs((y-yp+height/2.0)-(ch.y-ch.yp+ch.height/2.0)) <= height/2.0+ch.height/2.0){
-			return true;
-		}
-		return false;
-	}
-	
 	@Override
 	public int getZ() {
 		return 0;
@@ -80,15 +72,6 @@ public class Luffy extends Character
 			luffy = op.filter(luffy, null);
 			if(width>53) xp=width-53;
 		}
-	}
-
-	@Override
-	public void run(boolean isRight) {
-		if(isAttack) return;
-		isRun=true;
-		this.isRight=isRight;
-		if(isRight)	x+=20;
-		else  x-=20;
 	}
 
 	@Override
@@ -194,12 +177,7 @@ public class Luffy extends Character
 			enemy.setAttacked(true);
 			enemy.attacked(attackPower);
 			isDoubleAttack=true;
-		}
-		
-		if(isShoot && collideWith(enemy) &&!isDoubleAttack){
-			enemy.setAttacked(true);
-			enemy.attacked(maxPower);
-			isDoubleAttack = true;
+			powerCount++;
 		}
 		
 		if(isAttacked && flashing && flashDurationCounter%2==0){

@@ -39,9 +39,9 @@ public class Shootable implements IRenderable{
 			height=shootOject.getHeight();
 		}
 		
-		if(!isRight) transform();
+		if(!isRight && shootOject!=null) transform();
 		
-		x = shooter.getX()+shooter.getWidth()/2;
+		x = shooter.getX();
 		y = shooter.getY()+shooter.getHeight()/2-height/2;
 		
 	}
@@ -52,7 +52,7 @@ public class Shootable implements IRenderable{
 			g.setColor(Color.YELLOW);
 			g.fillOval(x, y, width, height);
 		}else{
-			g.drawImage(shootOject, x-xp, y, null);
+			g.drawImage(shootOject, x, y, null);
 		}
 		xp=0;
 	}

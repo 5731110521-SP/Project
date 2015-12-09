@@ -20,7 +20,7 @@ public class GameLogic {
 //		RenderableHolder.getInstance().add(bg);
 		
 		player1 = new Player(KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP);
-		character1 = (Playable) player1.getCharacter()[0];
+		character1 = (Playable) player1.getCharacter()[2];
 		RenderableHolder.getInstance().add(character1);
 		
 		player2 = new Player(KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_W);
