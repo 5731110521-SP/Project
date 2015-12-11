@@ -11,7 +11,7 @@ public class Background implements IRenderable{
 	@Override
 	public void draw(Graphics2D g) {
 		// TODO Auto-generated method stub
-		BufferedImage bg = Resource.bg;
+		BufferedImage bg = Resource.bg[0];
 		g.drawImage(bg,0,0,bg.getWidth(),bg.getHeight(),null);
 	}
 

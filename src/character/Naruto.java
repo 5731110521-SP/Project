@@ -15,33 +15,142 @@ import render.Resource;
 
 public class Naruto extends Character
 					implements IRenderable{
-	BufferedImage naruto;
-	private int[] countPic= new int[6];
-	private int jumpMax = 10;
-	private int count = 1;
 	
 	public Naruto(int ap, int dp, int hp,Player player) {
 		super(20, 0, 100);
-		indexC = 0;
+		indexC = 2;
 		width = 53;
 		height = 61;
 		x=100;
 		y=373-height;
 		this.player = player;
-		isAttack = false;
-		isRun = false;
-		isJump = false;
-		isRight = true;
-		countShoot = 5;
-		naruto = Resource.naruto.getSubimage(0, 0, 53, 61);
+		character = Resource.naruto.getSubimage(0, 0, 53, 61);
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
-		g.drawImage(naruto,x-xp,y+yp,width,height,null);
-		System.out.println(width);
-		xp=0;
-		yp=0;
+	public void picRunUpdate() {
+		if (isJump || isAttack)
+			return;
+		isAttack = false;
+		if(countPic[0] == 0)
+			character = Resource.naruto.getSubimage(0, 75, 50, 55);
+		else if(countPic[0] == 1)
+			character = Resource.naruto.getSubimage(55,78, 65, 51);
+		else if(countPic[0] == 2)
+			character = Resource.naruto.getSubimage(130,78, 54, 52);
+		else if(countPic[0] == 3)
+			character = Resource.naruto.getSubimage(193, 76,49, 52);
+		else if(countPic[0] == 4)
+			character = Resource.naruto.getSubimage(254, 76, 61,47);
+		else if(countPic[0] == 5)
+			character = Resource.naruto.getSubimage(320, 72, 56,56);
+		countPic[0]++;
+		if(countPic[0] == 6)countPic[0] = 0;
+	}
+
+	@Override
+	public void picJumpUpdate() {
+		if(countPic[1] < 3){
+			if(countPic[1] == 0){
+				character = Resource.naruto.getSubimage(1, 146, 42, 44);
+				width=42;
+				height=44;
+			}else if(countPic[1] == 1)
+				character = Resource.naruto.getSubimage(110, 135, 41, 68);
+			else if(countPic[1] == 2){
+				character = Resource.naruto.getSubimage(163, 135, 51, 66);
+				width=51;
+				height=66;
+			}
+			if(countPic[1] == 3) {
+				isJump=false;
+				countPic[1] = 0;
+			}
+		}
+		if(count==1) countPic[1]=0;
+		else if(count==jumpMax+1) countPic[1]=1;
+		else if(count==jumpMax*2) countPic[1]=2;
+		else if(countPic[1]>=2){
+			countPic[1] = 0;
+			isJump=false;
+		}
+	}
+
+	@Override
+	public void stand() {
+		if (isRun || isJump || isAttack)
+			return;
+		character = Resource.naruto.getSubimage(0, 0, 53, 61);
+		for (int a : countPic)
+			a = 0;
+	}
+
+	@Override
+	public void picAttackUpdate() {
+		if (!isAttack)
+			return;
+		if(countPic[2] == 0)
+			character = Resource.naruto.getSubimage(10, 375, 45, 61);
+		else if(countPic[2] == 1)
+			character = Resource.naruto.getSubimage(65, 377, 57, 55);
+		else if(countPic[2] == 2)
+			character = Resource.naruto.getSubimage(138,381, 59, 54);
+		else if(countPic[2] == 3)
+			character = Resource.naruto.getSubimage(209, 383, 58, 52);
+		else if(countPic[2] == 4)
+			character = Resource.naruto.getSubimage(274, 384, 51,53);
+		countPic[2]++;
+		if(countPic[2]>=5) {
+			character = Resource.naruto.getSubimage(0, 0, 53, 61);
+			countPic[2] = 0;
+			isAttack = false;
+			isDoubleAttack = false;
+		}
+	}
+
+	@Override
+	public void picShootUpdate() {
+		if (!isShoot)
+			return;
+		if(countPic[5] == 0){
+			character = Resource.naruto.getSubimage(20, 543, 66, 59);
+			width=66;
+		}else if(countPic[5] == 1){
+			character = Resource.naruto.getSubimage(104, 544, 66, 58);
+		}else if(countPic[5] ==2){
+			character = Resource.naruto.getSubimage(188, 540, 66, 58);
+		}else if(countPic[5] == 3){
+			character = Resource.naruto.getSubimage(263, 533, 66, 58);
+		}else if(countPic[5] == 4){
+			character = Resource.naruto.getSubimage(339, 465, 55, 58);
+		}else if(countPic[5] == 5){
+			character = Resource.naruto.getSubimage(410, 463, 66, 58);
+			isShoot = false;
+			countPic[5] = -1;
+			width=53;
+		}
+		countPic[5]++;
+	}
+
+	@Override
+	public void picLoseUpdate() {
+		if (!lose)
+			return;
+		if(countPic[3] == 0){
+			character = Resource.naruto.getSubimage(4, 221, 52, 56);
+			countPic[3]++;
+		}else if(countPic[3] == 1){
+			character = Resource.naruto.getSubimage(73, 217, 44, 55);
+			countPic[3]++;
+		}else if(countPic [3] == 2){
+			character = Resource.naruto.getSubimage(127, 220, 52, 50);
+			countPic[3]++;
+		}
+		else if(countPic[3] == 3){
+			character = Resource.naruto.getSubimage(192, 234, 64, 39);
+			height=39;
+			yp=61-39;
+		}
 	}
 
 	@Override
@@ -50,190 +159,9 @@ public class Naruto extends Character
 	}
 
 	@Override
-	public void hitByEnemy() {
-		flashCounter = 5;
-		flashDurationCounter = 0;
-	}
-
-	@Override
-	public void transform() {
-		AffineTransform at = new AffineTransform();
-		if(!isRight){
-			at = AffineTransform.getScaleInstance(-1, 1);
-			at.translate(-naruto.getWidth(null), 0);
-			AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-			naruto = op.filter(naruto, null);
-			if(width>46) xp=width-43;
-		}
-	}
-
-	@Override
-	public void jump() {
-		isJump = true;
-	}
-
-	@Override
-	public void attack(Character c) {
-		isAttack = true;
-		this.enemy = c;
-	}
-
-	@Override
-	public void shoot(Character c) {
-		this.enemy = c;
-		if(countShoot >= 10){
-			RenderableHolder.getInstance().add(new Shootable(this));
-			countShoot=0;
-			isShoot = true;
-		}
-	}
-
-	@Override
-	public void update() {
-		//If release
-				if(!InputUtility.getKeyPressed(player.getLeft()) && !InputUtility.getKeyPressed(player.getRight())){
-					isRun=false;
-				}
-				System.out.println(count +" "+countPic[1]);
-				//Change Y isJump
-				if(isJump){
-					if(count <= jumpMax) {
-						y -= 20;
-						count++;
-					}else if(count > jumpMax && count <= jumpMax*2){
-						y += 20;
-						count++;
-					}else{
-						count=1;
-					}
-				}
-			
-				//Change image
-				if(isJump){
-					if(countPic[1] < 3){
-						if(countPic[1] == 0){
-							naruto = Resource.naruto.getSubimage(1, 146, 42, 44);
-							width=42;
-							height=44;
-						}else if(countPic[1] == 1)
-							naruto = Resource.naruto.getSubimage(110, 135, 41, 68);
-						else if(countPic[1] == 2){
-							naruto = Resource.naruto.getSubimage(163, 135, 51, 66);
-							width=51;
-							height=66;
-						}
-						if(countPic[1] == 3) {
-							isJump=false;
-							countPic[1] = 0;
-						}
-					}
-					if(count==1) countPic[1]=0;
-					else if(count==jumpMax+1) countPic[1]=1;
-					else if(count==jumpMax*2) countPic[1]=2;
-					else if(countPic[1]>=2){
-						countPic[1] = 0;
-						isJump=false;
-					}
-				}else if(isRun){
-					isAttack = false;
-					if(countPic[0] == 0)
-						naruto = Resource.naruto.getSubimage(0, 75, 50, 55);
-					else if(countPic[0] == 1)
-						naruto = Resource.naruto.getSubimage(55,78, 65, 51);
-					else if(countPic[0] == 2)
-						naruto = Resource.naruto.getSubimage(130,78, 54, 52);
-					else if(countPic[0] == 3)
-						naruto = Resource.naruto.getSubimage(193, 76,49, 52);
-					else if(countPic[0] == 4)
-						naruto = Resource.naruto.getSubimage(254, 76, 61,47);
-					else if(countPic[0] == 5)
-						naruto = Resource.naruto.getSubimage(320, 72, 56,56);
-					countPic[0]++;
-					if(countPic[0] == 6)countPic[0] = 0;
-				}else{
-					naruto = Resource.naruto.getSubimage(0, 0, 53, 61);
-					countPic[0]=0;
-				}
-				if(isAttack){
-					if(countPic[2] == 0)
-						naruto = Resource.naruto.getSubimage(10, 375, 45, 61);
-					else if(countPic[2] == 1)
-						naruto = Resource.naruto.getSubimage(65, 377, 57, 55);
-					else if(countPic[2] == 2)
-						naruto = Resource.naruto.getSubimage(138,381, 59, 54);
-					else if(countPic[2] == 3)
-						naruto = Resource.naruto.getSubimage(209, 383, 58, 52);
-					else if(countPic[2] == 4)
-						naruto = Resource.naruto.getSubimage(274, 384, 51,53);
-					countPic[2]++;
-					if(countPic[2]>=5) {
-						naruto = Resource.naruto.getSubimage(0, 0, 53, 61);
-						countPic[2] = 0;
-						isAttack = false;
-						isDoubleAttack = false;
-					}
-				}
-				
-				if(lose){
-					if(countPic[3] == 0){
-						naruto = Resource.naruto.getSubimage(4, 221, 52, 56);
-						countPic[3]++;
-					}else if(countPic[3] == 1){
-						naruto = Resource.naruto.getSubimage(73, 217, 44, 55);
-						countPic[3]++;
-					}else if(countPic [3] == 2){
-						naruto = Resource.naruto.getSubimage(127, 220, 52, 50);
-						countPic[3]++;
-					}
-					else if(countPic[3] == 3){
-						naruto = Resource.naruto.getSubimage(192, 234, 64, 39);
-						height=39;
-						yp=61-39;
-					}
-				}
-				
-				if(isShoot){
-					if(countPic[5] == 0){
-						naruto = Resource.naruto.getSubimage(20, 543, 66, 59);
-						width=66;
-					}else if(countPic[5] == 1){
-						naruto = Resource.naruto.getSubimage(104, 544, 66, 58);
-					}else if(countPic[5] ==2){
-						naruto = Resource.naruto.getSubimage(188, 540, 67, 56);
-					}else if(countPic[5] == 3){
-						naruto = Resource.naruto.getSubimage(263, 533, 66, 58);
-					}else if(countPic[5] == 4){
-						naruto = Resource.naruto.getSubimage(339, 465, 55, 54);
-					}else if(countPic[5] == 5){
-						naruto = Resource.naruto.getSubimage(410, 463, 67, 51);
-						isShoot = false;
-						countPic[5] = -1;
-						width=53;
-					}
-					countPic[5]++;
-				}
-				
-				transform();	
-				if(isAttack && collideWith(enemy) && !isDoubleAttack){;
-					enemy.setAttacked(true);
-					enemy.attacked(attackPower);
-					isDoubleAttack = true;
-					powerCount++;
-				}
-				
-				if(isAttacked && flashing && flashDurationCounter%2==0){
-					flashing = false;
-					flashDurationCounter++;
-				}else if(isAttacked && !flashing && flashDurationCounter%2==1){
-					flashing = true;
-					flashDurationCounter++;
-				}
-				if(isAttacked && flashDurationCounter==flashCounter){
-					flashing = false;
-					isAttacked = false;
-					flashDurationCounter = 0;
-				}
-				countShoot++;
+	public void picSuperAttack() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
