@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javafx.scene.image.Image;
@@ -24,77 +25,85 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Home extends JPanel{
-	private boolean isVisible;
-	private BufferedImage button;
+	private BufferedImage[] button;
 	private int next;
 	public Home(){
 		super();
-		next=-1;
-		isVisible=true;
 		this.setPreferredSize(new Dimension(640,480));
 		this.setDoubleBuffered(true);
 		this.setVisible(true);
 		this.requestFocus();
-		button = Resource.button[0];
+		button = new BufferedImage[3];
+		next=-1;
 		
-		JPanel panel1 = new JPanel();
-		JLabel label1 = new JLabel(new ImageIcon(button));
-		panel1.add(label1);
-		JPanel panel2 = new JPanel();
-		JLabel label2 = new JLabel(new ImageIcon(button));
-		panel2.add(label2);
-		
-		panel1.addMouseListener(new MouseAdapter() {
+		this.addMouseListener(new MouseListener() {
 			
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
 				InputUtility.mouseLeftRelease();
 			}
 			
 			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
 			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				InputUtility.mouseLeftDown();
-				next=1;
+				if(arg0.getX()>=199 &&arg0.getX()<=199+238 && arg0.getY()>=247 && arg0.getY()<= 247+90){
+					next=0;
+					InputUtility.mouseLeftDown();
+				}else if(arg0.getX()>=189 &&arg0.getX()<=189+257 && arg0.getY()>=340 && arg0.getY()<= 340+60){
+					next=1;
+					InputUtility.mouseLeftDown();
+				}else if(arg0.getX()>=226 &&arg0.getX()<=226+238 && arg0.getY()>=410 && arg0.getY()<= 410+90){
+					next=2;
+					InputUtility.mouseLeftDown();
+				}
 			}
 		});
 		
-		panel2.addMouseListener(new MouseAdapter() {
+		this.addMouseMotionListener(new MouseMotionListener() {
 			
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				InputUtility.mouseLeftRelease();
+			public void mouseMoved(MouseEvent arg0) {
+				if(arg0.getX()>=199 &&arg0.getX()<=199+238 && arg0.getY()>=247 && arg0.getY()<= 247+90){
+					button[0]=Resource.button[3];
+				}else{
+					button[0]=Resource.button[0];
+				}
+				if(arg0.getX()>=189 &&arg0.getX()<=189+257 && arg0.getY()>=340 && arg0.getY()<= 340+60){
+					button[1]=Resource.button[4];
+				}else{
+					button[1]=Resource.button[1];
+				}
+				if(arg0.getX()>=226 &&arg0.getX()<=226+238 && arg0.getY()>=410 && arg0.getY()<= 410+90){
+					button[2]=Resource.button[5];
+				}else{
+					button[2]=Resource.button[2];
+				}
 			}
 			
 			@Override
-			public void mouseExited(MouseEvent arg0) {
+			public void mouseDragged(MouseEvent arg0) {
+				// TODO Auto-generated method stub
 				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				InputUtility.mouseLeftDown();
-				next=2;
 			}
 		});
-		
-		this.add(panel1);
-		this.add(panel2);
-		
 	}
 
 	@Override
@@ -102,6 +111,9 @@ public class Home extends JPanel{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(Resource.bg[1], 0, 0, null);
+		g2d.drawImage(button[0], 199, 247, null);
+		g2d.drawImage(button[1], 189, 340, null);
+		g2d.drawImage(button[2], 226, 410, null);
 //		g2d.drawImage(button, 220, 325, null);
 //		g2d.setColor(ColResource.button[0]or.BLACK);
 //		g2d.fillRect(0, 0, 640, 480);
@@ -109,14 +121,11 @@ public class Home extends JPanel{
 
 	public int update() {
 		if(InputUtility.isLeftClickTriggered()){
-			isVisible=false;
+			InputUtility.updateInputState();
+			setVisible(false);
 			return next;
 		}
-		return next;
-	}
-	
-	public boolean isVisible(){
-		return isVisible;
+		return -1;
 	}
 
 	

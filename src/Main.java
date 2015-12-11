@@ -4,61 +4,45 @@ import javax.swing.JFrame;
 
 import render.GameScreen;
 import render.Home;
+import render.How;
 import render.Login;
+import render.Setting;
 import entity.GameLogic;
 
 public class Main {
 	private static GameLogic logic;
 	private static JFrame frame;
 	private static Home home;
+	private static How how;
+	private static Setting setting;
 
 	public static void main(String[] args) {
 		frame = new JFrame("Get em' all");
-		home = new Home();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
-		login();
-		
-		frame.getContentPane().add(home);
+		home = new Home();
+		how = new How();
+		setting=new Setting();
 		
 		while (true) {
 			int next = home();
-			if (next == 1) {
-				choose();
+			if (next == 0) {
+				login();
 				game();
-			} else if (next == 2) {
+			}else if(next==1){
 				how();
-			} else if(next==3){
+			}else if(next==2){
 				setting();
 			}
 		}
 
 	}
-	
-	public static void login(){
-		Login login = new Login();
-		frame.getContentPane().add(login);
-		frame.pack();
-		login.requestFocus();
-		login.setVisible(true);
-
-		while (true) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if (login.update()) {
-				login.setVisible(false);
-				return;
-			}
-		}
-	}
 
 	public static int home() {
-		home.requestFocus();
 		home.setVisible(true);
+		frame.getContentPane().add(home);
+		frame.pack();
+		home.requestFocus();
 
 		while (true) {
 			try {
@@ -69,7 +53,6 @@ public class Main {
 			home.repaint();
 			int next = home.update();
 			if (next != -1) {
-				home.setVisible(false);
 				return next;
 			}
 		}
@@ -77,22 +60,69 @@ public class Main {
 	}
 	
 	public static void how(){
+		how.setVisible(true);
+		frame.getContentPane().add(how);
+		frame.pack();
+		how.requestFocus();
 		
+		while (true) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			how.repaint();
+			if (how.update()) {
+				return;
+			}
+		}
 	}
 	
 	public static void setting(){
+		setting.setVisible(true);
+		frame.getContentPane().add(setting);
+		frame.pack();
+		setting.requestFocus();
 		
+		while (true) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			setting.repaint();
+			if (setting.update()) {
+				return;
+			}
+		}
 	}
-
-	public static void choose(){
+	
+	public static void login(){
+		Login login = new Login();
 		
+		login.setVisible(true);
+		frame.getContentPane().add(login);
+		frame.pack();
+		login.requestFocus();
+		
+		while (true) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			login.repaint();
+			if (login.update()) {
+				return;
+			}
+		}
 	}
 
 	public static void game() {
 		GameScreen screen = new GameScreen();
 		logic = new GameLogic();
+		
 		frame.getContentPane().add(screen);
-		frame.setVisible(true);
 		frame.pack();
 		screen.requestFocus();
 
@@ -104,7 +134,6 @@ public class Main {
 			}
 			screen.repaint();
 			logic.logicUpdate();
-			// if()
 		}
 	}
 }

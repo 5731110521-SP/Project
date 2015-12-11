@@ -1,40 +1,24 @@
 package render;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import input.InputUtility;
 
-public class Login extends JPanel{
-	JTextField tf;
-	public Login() {
-		super(new GridBagLayout());
+public class How extends JPanel{
+	public How() {
+		super();
 		this.setPreferredSize(new Dimension(640,480));
 		this.setBackground(Color.GRAY);
 		this.setDoubleBuffered(true);
 		this.setVisible(true);
 		this.requestFocus();
-		
-		JLabel l = new JLabel("Enter Player1's name : ");
-		l.setFont(new Font("System", 0, 30));
-		tf = new JTextField("");
-		tf.setFont(new Font("System", 0, 30));
-		tf.setPreferredSize(new Dimension(300, 50));
-		
-		add(l);
-		add(tf);
 		
 		this.addMouseListener(new MouseListener() {
 			
@@ -79,13 +63,6 @@ public class Login extends JPanel{
 	public boolean update() {
 		if(InputUtility.isLeftClickTriggered()){
 			InputUtility.updateInputState();
-			if(tf.getText().equals("")){
-//				JLabel w = new JLabel("Enter name!");
-//				w.setForeground(Color.WHITE);
-//				add(w);
-//				validate();
-				return false;
-			}
 			setVisible(false);
 			return true;
 		}

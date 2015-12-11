@@ -1,62 +1,35 @@
-import java.io.BufferedReader;
+package logic;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Score {
+import render.RenderableHolder;
+
+public class Name {
 	private static List<String> line;
-
-	static {
-		line = new ArrayList<String>();
+	static{
+		line=new ArrayList<String>();
 	}
-
-	public static void main(String[] args) {
-		// String path = "C:/Users/UEFI/Documents/GitHub/Project/ABC.txt";
-		Scanner in = null;
+	
+	public Name(){
+		Scanner in=null;
 		try {
 			in = new Scanner(new File("Name.txt"));
 			while (in.hasNext()) {
 				line.add(in.nextLine());
 			}
 			in.close();
-			// BufferedReader br = new BufferedReader(new FileReader(file));
-			// while ((line = br.readLine()) != null) {
 		} catch (FileNotFoundException e) {
 			createFile(line);
 		}
-
-		System.out.println(findName("a"));
-		System.out.println(findName("123"));
-		System.out.println(findName("b"));
-		System.out.println(findName("b33"));
-		levelUp("123");
-		createFile(line);
 	}
-
-	// public static void getNameAndScore(){
-	// for(int i = 0;i<line.size();i++){
-	// System.out.println(line.get(i)+"\n");
-	// }
-	// }
-	//
-	// public static boolean findName(String name){
-	// for(int i = 0; i<line.size();i++)
-	// if(line.get(i).indexOf(name) > 0) return true;
-	// return false;
-	// }
-	//
-	// public static int findIndex(String name){
-	// for(int i = 0; i<line.size();i++)
-	// if(line.get(i).indexOf(name) > 0) return i;
-	// return line.size();
-	// }
-
+	
 	public static int findName(String name){
 		for(int i = 0; i<line.size();i++)
 			if(line.get(i).indexOf(name) >= 0) {
@@ -69,10 +42,10 @@ public class Score {
 	public static void addName(String name,int lv){
 		line.add(name+":"+lv);
 	}
-
-	public static int getLevel(String line) {
+	
+	public static int getLevel(String line){
 		int index = line.indexOf(":");
-		return Integer.parseInt(line.substring(index + 1));
+		return Integer.parseInt(line.substring(index+1));
 	}
 	
 	public static void levelUp(String name){
@@ -84,9 +57,9 @@ public class Score {
 			}
 		int level = getLevel(line.get(index));
 		line.remove(index);
-		addName(name, level+1);
+		addName(name, level);
 	}
-
+	
 	public static void createFile(List<String> line) {
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter("Name.txt"));
