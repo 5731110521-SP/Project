@@ -6,8 +6,6 @@ public class InputUtility {
 	public static boolean mouseOnScreen = true;
 	private static boolean isLeftDown = false;
 	private static boolean isLeftClickedLastTick = false;
-	private static boolean isRightDown = false;
-	private static boolean isRightClickedLastTick = false;
 	
 	public static boolean getKeyPressed(int key){
 		if(key<0 || key>=256) return false;
@@ -34,20 +32,6 @@ public class InputUtility {
 	
 	public static void updateInputState(){
 		isLeftClickedLastTick = false;
-		isRightClickedLastTick = false;
-	}
-	
-	public static void mouseRightDown(){
-		isLeftDown = true;
-		isLeftClickedLastTick = true;
-	}
-	
-	public static void mouseRightRelease(){
-		isLeftDown = false;
-	}
-	
-	public static boolean isRightClickTriggered(){
-		return isLeftClickedLastTick;
 	}
 	
 }

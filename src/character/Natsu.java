@@ -6,12 +6,11 @@ import render.Resource;
 
 public class Natsu extends Character implements IRenderable{
 
-	public Natsu(int ap, int dp, int hp,Player player) {
-		super(20, 10, 100);
+	public Natsu(int p,int ap, int dp, int hp,Player player) {
+		super(p,20, 10, 100);
 		indexC = 4;
 		width = 42;
 		height = 55;
-		x=100;
 		y=373-height;
 		this.player = player;
 		character = Resource.natsu.getSubimage(471, 224, 42, 55);
@@ -24,7 +23,7 @@ public class Natsu extends Character implements IRenderable{
 
 	@Override
 	public void picRunUpdate() {
-		if (isJump || isAttack)
+		if (!isRun)
 			return;
 		isAttack = false;
 		if(countPic[0] == 0)
@@ -75,7 +74,7 @@ public class Natsu extends Character implements IRenderable{
 
 	@Override
 	public void stand() {
-		if (isRun || isJump || isAttack)
+		if (isRun || isJump || isAttack || isShoot || isSuperAttack)
 			return;
 		character = Resource.natsu.getSubimage(471, 224, 42, 55);
 //		width = 42;
@@ -86,7 +85,7 @@ public class Natsu extends Character implements IRenderable{
 
 	@Override
 	public void picAttackUpdate() {
-		if (!isAttack)
+		if (!isAttack || isSuperAttack)
 			return;
 		if(countPic[2] == 0)
 			character = Resource.natsu.getSubimage(7, 449, 61, 58);
@@ -149,8 +148,30 @@ public class Natsu extends Character implements IRenderable{
 
 	@Override
 	public void picSuperAttack() {
-		// TODO Auto-generated method stub
-		
+		if(!isSuperAttack) return;
+		if(countPic[4] == 0)
+			character = Resource.natsu.getSubimage(9, 715, 60, 57);
+		else if(countPic[4] == 1)
+			character = Resource.natsu.getSubimage(68, 713, 55, 59);
+		else if(countPic[4] == 2)
+			character = Resource.natsu.getSubimage(124, 712, 55, 60);
+		else if(countPic[4] == 3)
+			character = Resource.natsu.getSubimage(183, 708, 71, 63);
+		else if(countPic[4] == 4)
+			character = Resource.natsu.getSubimage(259, 703, 72, 69);
+		else if(countPic[4] == 5)
+			character = Resource.natsu.getSubimage(334, 697, 80, 76);
+		else if(countPic[4] == 6)
+			character = Resource.natsu.getSubimage(414, 678, 58, 93);
+		else if(countPic[4] == 7)
+			character = Resource.natsu.getSubimage(476, 676, 52, 95);
+		countPic[4]++;
+		if(countPic[4] >= 8){
+			isAttack=false;
+			isSuperAttack = false;
+			countPic[4] = 0;
+		}
+		if(countPic[4]>=5 && countPic[4]<8) isAttack=true;
 	}
 
 }

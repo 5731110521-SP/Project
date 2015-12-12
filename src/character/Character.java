@@ -1,6 +1,7 @@
 package character;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -25,16 +26,16 @@ public abstract class Character implements Playable {
 	protected boolean lose;
 	protected int x, y, xp, yp, width, height;
 	protected boolean isAttacked, isVisible;
-	protected boolean isRun, isRight, isJump, isAttack, isDoubleAttack, isShoot;
+	protected boolean isRun, isRight, isJump, isAttack, isDoubleAttack, isShoot,isSuperAttack;
 	protected boolean flashing;
 	protected int flashCounter, flashDurationCounter, counter, countShoot;
 	protected Player player;
 	protected Character enemy;
-	protected int jumpMax = 5;
+	protected int jumpMax = 10;
 	protected int count = 1;
 	protected int[] countPic = new int[6];
 
-	public Character(int ap, int dp, int hp) {
+	public Character(int player,int ap, int dp, int hp) {
 		attackPower = ap;
 		defencePower = dp;
 		healthPoint = hp;
@@ -49,6 +50,12 @@ public abstract class Character implements Playable {
 		isShoot = false;
 		flashing = false;
 		isVisible = true;
+		if(player==1){
+			x=100;
+		}else{
+			x=500;
+			isRight=false;
+		}
 		for (int a : countPic)
 			a = 0;
 	}
@@ -61,6 +68,7 @@ public abstract class Character implements Playable {
 	}
 
 	public void transform() {
+		if(lose) return;
 		AffineTransform at = new AffineTransform();
 		if (!isRight) {
 			at = AffineTransform.getScaleInstance(-1, 1);
@@ -69,27 +77,31 @@ public abstract class Character implements Playable {
 			character = op.filter(character, null);
 //			if (width > 53)
 //				xp = width - 53;
-			if(character.getWidth()>width) xp = character.getWidth()-53;
+			if(character.getWidth()>width) xp = character.getWidth()-width;
 		}
 	}
 
 	public void run(boolean isRight) {
-		if (isAttack)
+		if (isAttack || isShoot || isSuperAttack){
 			return;
+		}
 		isRun = true;
 		this.isRight = isRight;
 		if (isRight)
 			x += 20;
 		else
 			x -= 20;
+		
+		if(x<0) x=0;
+		else if(x>640-character.getWidth()) x=640-character.getWidth();
 	}
 
 	public void jump() {
-		// System.out.println(isJump);
-		if (isJump) {
-			// System.out.println("return");
+		if (isJump || isAttack || isShoot || isSuperAttack){
+//			System.out.println("re");
 			return;
 		}
+//		System.out.println("in");
 		isJump = true;
 
 		new Thread(new Runnable() {
@@ -113,12 +125,14 @@ public abstract class Character implements Playable {
 						} else {
 							count = 1;
 							// System.out.println("break");
-							isJump = false;
-							break;
 						}
 
 						picJumpUpdate();
-
+						
+						if(!isJump) {
+							count=1;
+							break;
+						}
 					}
 				}
 			}
@@ -126,7 +140,7 @@ public abstract class Character implements Playable {
 	}
 
 	public void attackUpdate() {
-		if (isAttack && collideWith(enemy) && !isDoubleAttack) {
+		if ((isAttack) && collideWith(enemy) && !isDoubleAttack) {
 			enemy.setAttacked(true);
 			enemy.attacked(attackPower);
 			isDoubleAttack = true;
@@ -160,8 +174,11 @@ public abstract class Character implements Playable {
 	}
 
 	public void shoot(Character c) {
+		if (isAttack || isShoot || isSuperAttack){
+			return;
+		}
 		this.enemy = c;
-		if (countShoot >= 10) {
+		if (countShoot >= 5) {
 			RenderableHolder.getInstance().add(new Shootable(this));
 			countShoot = 0;
 			isShoot = true;
@@ -169,7 +186,20 @@ public abstract class Character implements Playable {
 
 	}
 
+	public void superAttack(){
+		if (isAttack || isShoot || isSuperAttack){
+			return;
+		}
+		if(powerCount>=4){
+			isSuperAttack=true;
+			powerCount=0;
+		}
+	}
+
 	public void attack(Character c) {
+		if (isAttack || isShoot || isSuperAttack){
+			return;
+		}
 		isAttack = true;
 		// System.out.println(isAttack);
 		this.enemy = c;
@@ -190,11 +220,26 @@ public abstract class Character implements Playable {
 //				.abs((y - yp + height / 2.0) - (ch.y - ch.yp + ch.height / 2.0)) <= height / 2.0 + ch.height / 2.0) {
 //			return true;
 //		}
-		if (Math.abs((x - xp + getCharacter().getWidth() / 2.0) - (ch.x - ch.xp + ch.getCharacter().getWidth() / 2.0)) <= getCharacter().getWidth() / 2.0 + ch.getCharacter().getWidth() / 2.0 && Math
-				.abs((y - yp + getCharacter().getHeight() / 2.0) - (ch.y - ch.yp + ch.getCharacter().getHeight() / 2.0)) <= getCharacter().getHeight() / 2.0 + ch.getCharacter().getHeight() / 2.0) {
-			return true;
-		}
-		return false;
+//		if (Math.abs((x - xp + getCharacter().getWidth() / 2.0) - (ch.x - ch.xp + ch.getCharacter().getWidth() / 2.0)) <= getCharacter().getWidth() / 2.0 + ch.getCharacter().getWidth() / 2.0 && Math
+//				.abs((y - yp + getCharacter().getHeight() / 2.0) - (ch.y - ch.yp + ch.getCharacter().getHeight() / 2.0)) <= getCharacter().getHeight() / 2.0 + ch.getCharacter().getHeight() / 2.0) {
+//			return true;
+//		}
+//		return false;
+		
+//		Rectangle p = new Rectangle(x, y, width/2, height/2);
+//		Rectangle m = new Rectangle(ch.x, ch.y, ch.width/2, ch.height/2);
+		
+//		int xp=0,yp=0,chxp=0,chyp=0;
+//		yp = character.getHeight() - height;
+//		chyp=ch.getCharacter().getHeight()-ch.getHeight();
+//		if(character.getWidth()>width) xp = character.getWidth()-width;
+//		if(ch.getCharacter().getWidth()>ch.getWidth()) chxp = ch.getCharacter().getWidth()-ch.getWidth();
+//		Rectangle p = new Rectangle(x-xp, y-yp, character.getWidth(), character.getHeight());
+//		Rectangle m = new Rectangle(ch.x-chxp, ch.y-chyp, ch.getCharacter().getWidth(), ch.getCharacter().getHeight());
+		
+		Rectangle p = new Rectangle(x-xp, y-yp, character.getWidth(), character.getHeight());
+		Rectangle m = new Rectangle(ch.x-ch.getXp(), ch.y-ch.getYp(), ch.getCharacter().getWidth(), ch.getCharacter().getHeight());
+		return p.intersects(m);
 	}
 
 	public BufferedImage getCharacter() {
@@ -205,18 +250,18 @@ public abstract class Character implements Playable {
 		if (!InputUtility.getKeyPressed(player.getLeft()) && !InputUtility.getKeyPressed(player.getRight())) {
 			isRun = false;
 		}
-
-		picRunUpdate();
-		picAttackUpdate();
-		stand();
-
-		picLoseUpdate();
-		picShootUpdate();
 		countShoot++;
 		
-		attackUpdate();
+		if(!isJump && !isAttack)picRunUpdate();
+		picAttackUpdate();
+		picShootUpdate();
+		picSuperAttack();
+		
+		stand();
+		picLoseUpdate();
 		
 		transform();
+		attackUpdate();
 	}
 
 	public abstract void picRunUpdate();
@@ -315,6 +360,10 @@ public abstract class Character implements Playable {
 
 	public void setPowerCount(int powerCount) {
 		this.powerCount = powerCount;
+	}
+	
+	public boolean isSuperAttack() {
+		return isSuperAttack;
 	}
 
 }
