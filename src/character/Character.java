@@ -8,8 +8,10 @@ import java.awt.image.BufferedImage;
 
 import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
 
+import entity.GameLogic;
 import entity.Player;
 import entity.Shootable;
+import entity.Time;
 import input.InputUtility;
 import render.IRenderable;
 import render.RenderableHolder;
@@ -167,9 +169,10 @@ public abstract class Character implements Playable {
 	}
 
 	public boolean isLose() {
-		if (healthPoint <= 0)
+		if (healthPoint <= 0){
+			Time.ishasWinner=true;
 			return true;
-		else
+		}else
 			return false;
 	}
 

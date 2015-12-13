@@ -9,6 +9,7 @@ import character.Naruto;
 import character.Natsu;
 import character.Pikachu;
 import character.Reborn;
+import logic.Name;
 
 public class Player {
 	
@@ -19,11 +20,14 @@ public class Player {
 	private IRenderable[] character = new IRenderable[6];
 	private int player;
 	
-	public Player(int player,int l,int r, int u){
+	public Player(int player,String name,int l,int r, int u){
 		left = l;
 		right = r;
 		up = u;
 		this.player=player;
+		this.name=name;
+		level = Name.findName(name);
+		System.out.println(level);
 		
 		Pikachu pikachu = new Pikachu(player,0, 0, 0, this);
 		character[0] = pikachu;
@@ -39,6 +43,14 @@ public class Player {
 		character[5] = kuro;
 	}
 	
+	public int getLevel() {
+		return level;
+	}
+
+	public String getName() {
+		return name;
+	}
+
 	public IRenderable[] getCharacter() {
 		return character;
 	}
