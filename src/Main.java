@@ -30,7 +30,7 @@ public class Main {
 	private static Choose choose;
 	private static GameScreen screen;
 	private static Winner winner;
-	
+
 	public static void main(String[] args) {
 		frame = new JFrame("Get em' all");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,19 +44,18 @@ public class Main {
 			currentPanel = home;
 			if (next == 0) {
 				
-				//if
-				
 				if (Login.player1 == null) {
 					login(currentPanel, 1);
 					currentPanel = login;
 					login(currentPanel, 2);
 					currentPanel = login;
 				}else{
-					Login.player1=new Player(1,Login.player1.getName(),KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_W);
-					Login.player2=new Player(2,Login.player2.getName(),KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP);
+					Login.player1=new Player(1,Login.player1.getName());
+					Login.player2=new Player(2,Login.player2.getName());
 				}
 
-				int Player1Choose, Player2Choose;
+				
+				int Player1Choose,Player2Choose;
 				if (Login.player1.getLevel() <= Login.player2.getLevel()) {
 					Player1Choose = choose(currentPanel, 1, Login.player1.getLevel(), -1);
 					currentPanel = choose;
@@ -147,7 +146,7 @@ public class Main {
 		}
 	}
 
-	public static void login(JComponent currentPanel, int i) {
+	public static int login(JComponent currentPanel, int i) {
 		login = new Login(i);
 		login.setVisible(true);
 		frame.remove(currentPanel);
@@ -164,16 +163,15 @@ public class Main {
 			login.repaint();
 			try {
 				if (login.update()) {
-					return;
+					return Name.findName(login.getName());
 				}
 			} catch (MyException e) {
 			}
 		}
 	}
 
-	private static int choose(JComponent currentPanel, int i, int level, int choosed) {
-		// add i
-		choose = new Choose(level, choosed, i);
+	private static int choose(JComponent currentPanel,int i, int level,int choosed) {
+		choose = new Choose(level,choosed, level);
 		choose.setVisible(true);
 		frame.getContentPane().add(choose);
 		frame.remove(currentPanel);
@@ -188,16 +186,16 @@ public class Main {
 			}
 			choose.repaint();
 			int c = choose.update();
-			if (c != -1) {
+			if (c!=-1) {
 				return c;
 			}
 		}
 
 	}
 
-	public static void game(JComponent currentPanel, int player1Choose, int player2Choose) {
+	public static void game(JComponent currentPanel,int player1Choose,int player2Choose) {
 		screen = new GameScreen();
-		logic = new GameLogic(player1Choose, player2Choose);
+		logic = new GameLogic(player1Choose,player2Choose);
 
 		frame.getContentPane().add(screen);
 		frame.remove(currentPanel);
@@ -216,7 +214,7 @@ public class Main {
 				return;
 		}
 	}
-
+	
 	public static void winner(JComponent currentPanel) {
 		winner = new Winner();
 		winner.setVisible(true);

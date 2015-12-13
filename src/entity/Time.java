@@ -25,7 +25,7 @@ public class Time implements IRenderable {
 	public Time() {
 		state=0;
 		startTime=System.nanoTime()/1000000000;
-		timeEnd=10;
+		timeEnd=120;
 		winner="";
 		time=timeEnd;
 		isPlay=false;

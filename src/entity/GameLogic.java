@@ -12,14 +12,14 @@ import render.IRenderable;
 import render.Login;
 import render.RenderableHolder;
 import render.Resource;
-import sun.security.x509.IssuingDistributionPointExtension;
+import render.Setting;
 
 public class GameLogic {
 	protected static Playable character1;
 	protected static Playable character2;
 	
 	public GameLogic(int player1Choose,int  player2Choose){	
-//Login.player1
+
 		RenderableHolder.getInstance().getRenderableList().clear();
 		
 		character1 = (Playable) Login.player1.getCharacter()[player1Choose];
@@ -30,46 +30,44 @@ public class GameLogic {
 	
 		StatusBar sb = new StatusBar((Character)character1, (Character)character2);
 		RenderableHolder.getInstance().add(sb);
-		//time
+
 		Time t = new Time();
 		RenderableHolder.getInstance().add(t);
 	}
 	
-	//delete else && change KeyEvent
-	
 	public void logicUpdate(){
-		if(InputUtility.getKeyPressed(Login.player1.getRight())){
+		if(InputUtility.getKeyPressed(Setting.key[1])){
 			if(!((Character) character1).isLose() && Time.isPlay){
 				((Character) character1).run(true);
 //				Resource.run.play();
 			}
-		}else if(InputUtility.getKeyPressed(Login.player1.getLeft())){
+		}else if(InputUtility.getKeyPressed(Setting.key[0])){
 			if(!((Character) character1).isLose() && Time.isPlay){
 				((Character) character1).run(false);
 //				Resource.run.play();
 			}
-		}else if(InputUtility.getKeyPressed(KeyEvent.VK_S)){
+		}else if(InputUtility.getKeyPressed(Setting.key[3])){
 			if(!((Character) character1).isLose() && Time.isPlay){
 				((Character) character1).attack((Character)(character2));
 				if((Character)character1 instanceof Reborn) Resource.rebornGun.play();
 				else Resource.fencing.play();
 			}
-		}else if(InputUtility.getKeyPressed(KeyEvent.VK_F)){
+		}else if(InputUtility.getKeyPressed(Setting.key[4])){
 			if(!((Character) character1).isLose() && Time.isPlay){
 				((Character) character1).shoot(((Character) character2));
 				if((Character)character1 instanceof Kurosaki) Resource.fencing.play();
 				else if((Character)character1 instanceof Reborn) Resource.rebornBomb.play();
 				else if((Character)character1 instanceof Pikachu) Resource.pikaShoot.play();
 			}
-		}else if(InputUtility.getKeyPressed(KeyEvent.VK_Z)){
-			if(!character1.isLose() && Time.isPlay){
+		}else if(InputUtility.getKeyPressed(Setting.key[5])){
+			if(!((Character) character1).isLose() && Time.isPlay){
 				character1.superAttack();
 				if((Character)character1 instanceof Pikachu) Resource.pikachu2.play();
 			}
 		}
 		
-		if(InputUtility.getKeyPressed(Login.player1.getUp())){
-			if(!((Character) character1).isLose()&& Time.isPlay){
+		if(InputUtility.getKeyPressed(Setting.key[2])){
+			if(!((Character) character1).isLose() && Time.isPlay){
 				((Character) character1).jump();
 				if((Character)character1 instanceof Pikachu)Resource.pikachu1.play();
 				else Resource.jump.play();
@@ -77,36 +75,36 @@ public class GameLogic {
 		}
 		
 		
-		if(InputUtility.getKeyPressed(Login.player2.getRight())){
+		if(InputUtility.getKeyPressed(Setting.key[7])){
 			if(!((Character) character2).isLose()&& Time.isPlay){
 				((Character) character2).run(true);
 //				Resource.run.play();
 			}
-		}else if(InputUtility.getKeyPressed(Login.player2.getLeft())){
+		}else if(InputUtility.getKeyPressed(Setting.key[6])){
 			if(!((Character) character2).isLose()&& Time.isPlay){
 				((Character) character2).run(false);
 //				Resource.run.play();
 			}
-		}else if(InputUtility.getKeyPressed(KeyEvent.VK_DOWN)){
+		}else if(InputUtility.getKeyPressed(Setting.key[9])){
 			if(!((Character) character2).isLose()&& Time.isPlay){
 				((Character)character2).attack((Character) character1);
 				if((Character)character2 instanceof Reborn) Resource.rebornGun.play();
 				else Resource.fencing.play();
 			}
-		}else if(InputUtility.getKeyPressed(KeyEvent.VK_ENTER)){
+		}else if(InputUtility.getKeyPressed(Setting.key[10])){
 			if(!((Character) character2).isLose()&& Time.isPlay){
 				((Character) character2).shoot(((Character) character1));
 				if((Character)character2 instanceof Kurosaki) Resource.fencing.play();
 				else if((Character)character2 instanceof Reborn) Resource.rebornBomb.play();
 				else if((Character)character2 instanceof Pikachu) Resource.pikaShoot.play();
 			}
-		}else if(InputUtility.getKeyPressed(KeyEvent.VK_BACK_SLASH)){
-			if(!character2.isLose()&& Time.isPlay){
+		}else if(InputUtility.getKeyPressed(Setting.key[11])){
+			if(!((Character) character2).isLose()&& Time.isPlay){
 				character2.superAttack();
 			}
 		}
 		
-		if(InputUtility.getKeyPressed(Login.player2.getUp())){
+		if(InputUtility.getKeyPressed(Setting.key[8])){
 			if(!((Character) character2).isLose()&& Time.isPlay){
 				((Character) character2).jump();
 				if((Character)character2 instanceof Pikachu)Resource.pikachu1.play();
@@ -133,5 +131,4 @@ public class GameLogic {
 		if(((Character) character2).getHealthPoint()>((Character) character1).getHealthPoint()) return 2;
 		return 0;
 	}
-	
 }

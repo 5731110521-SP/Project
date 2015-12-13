@@ -149,7 +149,7 @@ public class Choose extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;		
+		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(Resource.choose[6], 0, 0, null);
 		if(choosed!=1) g2.drawImage(Resource.choose[1], 430 + x[1], 95 + x[1], null);
 		if(choosed!=4) g2.drawImage(Resource.choose[4], 190 + x[4], 103 + x[4], null);

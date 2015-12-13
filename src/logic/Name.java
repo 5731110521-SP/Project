@@ -45,7 +45,7 @@ public class Name {
 				index = i;
 				break;
 			}
-		int level = getLevel(line.get(index))+1;
+		int level = getLevel(line.get(index));
 		line.remove(index);
 		addName(name, level);
 	}

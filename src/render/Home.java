@@ -33,6 +33,7 @@ public class Home extends JPanel{
 		this.setDoubleBuffered(true);
 		this.setVisible(true);
 		this.requestFocus();
+		Resource.musicHome.loop();
 		button = new BufferedImage[3];
 		next=-1;
 		
@@ -61,12 +62,15 @@ public class Home extends JPanel{
 				// TODO Auto-generated method stub
 				
 			}
-			//delete
+			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(arg0.getX()>=199 &&arg0.getX()<=199+238 && arg0.getY()>=247 && arg0.getY()<= 247+90){
 					next=0;
 					InputUtility.mouseLeftDown();
+//				}else if(arg0.getX()>=189 &&arg0.getX()<=189+257 && arg0.getY()>=340 && arg0.getY()<= 340+60){
+//					next=1;
+//					InputUtility.mouseLeftDown();
 				}else if(arg0.getX()>=221 &&arg0.getX()<=221+202 && arg0.getY()>=343 && arg0.getY()<= 343+67){
 					next=2;
 					InputUtility.mouseLeftDown();
@@ -83,6 +87,11 @@ public class Home extends JPanel{
 				}else{
 					button[0]=Resource.button[0];
 				}
+//				if(arg0.getX()>=189 &&arg0.getX()<=189+257 && arg0.getY()>=340 && arg0.getY()<= 340+60){
+//					button[1]=Resource.button[4];
+//				}else{
+//					button[1]=Resource.button[1];
+//				}
 				if(arg0.getX()>=221 &&arg0.getX()<=221+202 && arg0.getY()>=343 && arg0.getY()<= 343+67){
 					button[2]=Resource.button[5];
 				}else{
@@ -110,7 +119,7 @@ public class Home extends JPanel{
 //		g2d.setColor(ColResource.button[0]or.BLACK);
 //		g2d.fillRect(0, 0, 640, 480);
 	}
-	// ^delete
+
 	public int update() {
 		if(InputUtility.isLeftClickTriggered()){
 			InputUtility.updateInputState();

@@ -23,7 +23,6 @@ import javax.swing.JTextField;
 import entity.Player;
 import input.InputUtility;
 import logic.MyException;
-import logic.Name;
 
 public class Login extends JPanel{
 	private JTextField tf;
@@ -31,8 +30,6 @@ public class Login extends JPanel{
 	private String Name;
 	public static Player player1,player2;
 	private int player;
-	
-	//player
 	
 	public Login(int i) {
 		super(new GridBagLayout());
@@ -84,7 +81,7 @@ public class Login extends JPanel{
 				InputUtility.mouseLeftDown();
 			}
 		});
-		// Key
+		
 		KeyListener k = new KeyListener() {
 			
 			@Override
@@ -107,8 +104,6 @@ public class Login extends JPanel{
 		
 	}
 	
-	//player>>
-	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -119,7 +114,7 @@ public class Login extends JPanel{
 		Rectangle2D r2 = fm.getStringBounds("- Enter -", g2d);
 		g2d.drawString("- Enter -", GameScreen.width/2-(int)r2.getWidth()/2, GameScreen.height/2+80);
 	}
-	// >> Key
+
 	public boolean update() throws MyException{
 		if(InputUtility.isLeftClickTriggered() || InputUtility.getKeyPressed(KeyEvent.VK_ENTER)){
 			InputUtility.setKeyPressed(KeyEvent.VK_ENTER, false);
@@ -130,9 +125,9 @@ public class Login extends JPanel{
 //					setVisible(false);
 					Name=tf.getText();
 					if(player==1){
-						player1=new Player(1,Name,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_W);
+						player1=new Player(1,Name);
 					}else{
-						player2=new Player(2,Name,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_UP);
+						player2=new Player(2,Name);
 					}
 					return true;
 				}

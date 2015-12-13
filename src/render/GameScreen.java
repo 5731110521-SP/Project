@@ -28,14 +28,13 @@ public class GameScreen extends JComponent{
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
-			
 			}
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
 				InputUtility.setKeyPressed(e.getKeyCode(), false);
 			}
-			//nothing but fishing
+			
 			@Override
 			public void keyPressed(KeyEvent e) {
 				InputUtility.setKeyPressed(e.getKeyCode(), true);
