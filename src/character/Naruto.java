@@ -15,14 +15,16 @@ import render.Resource;
 
 public class Naruto extends Character implements IRenderable {
 
-	public Naruto(int p,int ap, int dp, int hp, Player player) {
-		super(p,20, 0, 100);
+	public Naruto(int p, int ap, int dp, int hp, Player player) {
+		super(p, 20, 0, 100);
 		indexC = 2;
 		width = 53;
 		height = 61;
 		y = 373 - height;
 		this.player = player;
 		character = Resource.naruto.getSubimage(0, 0, 53, 61);
+		// tran
+		transform();
 	}
 
 	@Override
@@ -48,39 +50,43 @@ public class Naruto extends Character implements IRenderable {
 	}
 
 	@Override
-	public void picJumpUpdate() {
+	public void picJumpUpdate(int i) {
 		if (countPic[1] < 3) {
 			if (countPic[1] == 0) {
 				character = Resource.naruto.getSubimage(1, 146, 42, 44);
-//				width = 42;
-//				height = 44;
+				// width = 42;
+				// height = 44;
 			} else if (countPic[1] == 1)
 				character = Resource.naruto.getSubimage(110, 135, 41, 68);
 			else if (countPic[1] == 2) {
 				character = Resource.naruto.getSubimage(163, 135, 51, 66);
-//				width = 51;
-//				height = 66;
+				// width = 51;
+				// height = 66;
 			}
 			if (countPic[1] == 3) {
 				isJump = false;
 				countPic[1] = 0;
 			}
 		}
-		if (count == 1)
+		if (count[i] == 1)
 			countPic[1] = 0;
-		else if (count == jumpMax + 1)
+		else if (count[i] == jumpMax + 1)
 			countPic[1] = 1;
-		else if (count == jumpMax * 2)
+		else if (count[i] == jumpMax * 2)
 			countPic[1] = 2;
 		else if (countPic[1] >= 2) {
 			countPic[1] = 0;
-			isJump = false;
+			if(i==0){
+				isJump = false;
+			}else{
+				isDoubleJump=false;
+			}
 		}
 	}
 
 	@Override
 	public void stand() {
-		if (isRun || isJump || isAttack || isShoot ||isSuperAttack)
+		if (isRun || isJump || isAttack || isShoot || isSuperAttack)
 			return;
 		character = Resource.naruto.getSubimage(0, 0, 53, 61);
 		for (int a : countPic)

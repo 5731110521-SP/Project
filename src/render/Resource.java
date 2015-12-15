@@ -26,8 +26,9 @@ public class Resource {
 	public static BufferedImage[] superAttack = new BufferedImage[6];;
 	public static BufferedImage[] bg = new BufferedImage[2];
 	public static BufferedImage[] pic = new BufferedImage[6];
-	public static BufferedImage hpbarUnder,hpbarUpper;
-	public static BufferedImage mute1,mute2;
+	public static BufferedImage hpbarUnder,hpbarUpper,time,timePoint;
+	//c
+	public static BufferedImage mute1,mute2,center;
 	public static AudioClip pikachu1;
 	public static AudioClip pikachu2;
 	public static AudioClip rebornGun;
@@ -38,6 +39,7 @@ public class Resource {
 	public static AudioClip musicHome;
 	public static BufferedImage[] button = new BufferedImage[6];
 	public static BufferedImage[] choose = new BufferedImage[7];
+	public static BufferedImage[] ss = new BufferedImage[6];
 	
 	static{
 		try{
@@ -68,6 +70,8 @@ public class Resource {
 			bg[1]= ImageIO.read(loader.getResource("res/home.png"));
 			hpbarUnder = ImageIO.read(loader.getResource("res/hpbarUnder-02.png"));
 			hpbarUpper = ImageIO.read(loader.getResource("res/hpbarUpper-02.png"));
+			time = ImageIO.read(loader.getResource("res/time.png"));
+			timePoint = ImageIO.read(loader.getResource("res/timePoint.png"));
 			
 			pic[0]= ImageIO.read(loader.getResource("res/pikachupic-01.png"));
 			pic[1]= ImageIO.read(loader.getResource("res/luffypic-02.png"));
@@ -91,8 +95,11 @@ public class Resource {
 			choose[4] = ImageIO.read(loader.getResource("res/choosena.png"));
 			choose[5] = ImageIO.read(loader.getResource("res/chooseku.png"));
 			
+			ss[2] = ImageIO.read(loader.getResource("res/ssNaruto.png"));
+			
 			mute1 = ImageIO.read(loader.getResource("res/mute1.png"));
 			mute2 = ImageIO.read(loader.getResource("res/mute2.png"));
+			center = ImageIO.read(loader.getResource("res/center.png"));
 			
 			pikachu1 = Applet.newAudioClip((loader.getResource("res/pika.wav")).toURI().toURL());
 			pikachu2 = Applet.newAudioClip((loader.getResource("res/thunder.wav")).toURI().toURL());

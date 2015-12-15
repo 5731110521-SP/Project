@@ -15,23 +15,26 @@ import javax.swing.JPanel;
 
 import entity.Player;
 import input.InputUtility;
+import logic.LevelException;
+import logic.NameBlankException;
 
 public class Choose extends JPanel {
 	private int level;
 	private Player player;
 	private int[] x;
 	private int choose,choosed;
-
-	public Choose(int level,int choosed,int player) {
+	//vv
+	public Choose(int choosed,int player) {
 		super();
 		this.setPreferredSize(new Dimension(640, 480));
 		this.setBackground(Color.GRAY);
 		this.setDoubleBuffered(true);
 		this.setVisible(true);
 		this.requestFocus();
-		this.level = level;
-		if(player==1)this.player=Login.player1;
-		else this.player=Login.player2;
+		//player[]
+		// i 
+		this.player=Login.player[player-1];
+		level = this.player.getLevel();
 		x = new int[6];
 		for (int i : x) {
 			i = 0;
@@ -64,33 +67,50 @@ public class Choose extends JPanel {
 				// TODO Auto-generated method stub
 
 			}
-
+//else
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getX() >= 483 && arg0.getX() <= 483 + Resource.choose[0].getWidth() && arg0.getY() >= 303
 						&& arg0.getY() <= 303 + Resource.choose[0].getHeight()) {
 					choose = 0;
 					if(level>=4 && choosed!=0)InputUtility.mouseLeftDown();
+					else ShowDialog(player,4);
+					
 				} else if (arg0.getX() >= 430 && arg0.getX() <= 430 + Resource.choose[1].getWidth() && arg0.getY() >= 95
 						&& arg0.getY() <= 95 + Resource.choose[1].getHeight()) {
 					choose = 1;
 					if(choosed!=1)InputUtility.mouseLeftDown();
+					else ShowDialog(player,1);
 				} else if (arg0.getX() >= 186 && arg0.getX() <= 186 + Resource.choose[2].getWidth()
 						&& arg0.getY() >= 283 && arg0.getY() <= 283 + Resource.choose[2].getHeight()) {
 					choose = 2;
 					if(level>=2 && choosed!=2)InputUtility.mouseLeftDown();
+					else ShowDialog(player,2);
 				} else if (arg0.getX() >= 11 && arg0.getX() <= 11 + Resource.choose[3].getWidth() && arg0.getY() >= 355
 						&& arg0.getY() <= 355 + Resource.choose[3].getHeight()) {
 					choose = 3;
 					if(level>=3 && choosed!=3)InputUtility.mouseLeftDown();
+					else ShowDialog(player,3);
 				} else if (arg0.getX() >= 190 && arg0.getX() <= 190 + Resource.choose[4].getWidth()
 						&& arg0.getY() >= 103 && arg0.getY() <= 103 + Resource.choose[4].getHeight()) {
 					choose = 4;
 					if(choosed!=4) InputUtility.mouseLeftDown();
+					else ShowDialog(player,1);
 				} else if (arg0.getX() >= 7 && arg0.getX() <= 7 + Resource.choose[5].getWidth() && arg0.getY() >= 83
 						&& arg0.getY() <= 83 + Resource.choose[5].getHeight()) {
 					choose = 5;
 					if(level>=5 && choosed!=5)InputUtility.mouseLeftDown();
+					else ShowDialog(player,5);
+				}
+			}
+			private void ShowDialog(int level,int req){
+				try {
+					if(level>=req){
+						throw new LevelException(-1);
+					}else{
+						throw new LevelException(req);
+					}
+				} catch (LevelException e) {
 				}
 			}
 		});
@@ -173,9 +193,10 @@ public class Choose extends JPanel {
 		
 		g2.setFont(new Font("Tahoma", Font.BOLD, 30));
 		FontMetrics fm = g2.getFontMetrics();
-		Rectangle2D r2 = fm.getStringBounds(player.getName()+" choose your Character.", g2);
+		//level
+		Rectangle2D r2 = fm.getStringBounds(player.getName()+"(LV. "+player.getLevel()+") choose your Character.", g2);
 		g2.setColor(Color.WHITE);
-		g2.drawString(player.getName()+" choose your Character.", GameScreen.width/2-(int)r2.getWidth()/2, 40);
+		g2.drawString(player.getName()+"(LV. "+player.getLevel()+") choose your Character.", GameScreen.width/2-(int)r2.getWidth()/2, 40);
 	}
 
 	public int update() {

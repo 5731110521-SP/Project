@@ -43,6 +43,7 @@ public class SuperShootable implements IRenderable {
 			 width=33;
 			 height=221;
 			 power=10;
+			 image = shootPic[count];
 		}else if(shooter instanceof Reborn){
 			shootPic = new BufferedImage[8];
 			shootPic[0] = Resource.superAttack[3].getSubimage(446, 1183, 14, 41);
@@ -56,6 +57,7 @@ public class SuperShootable implements IRenderable {
 			 width=14;
 			 height=41;
 			 power=10;
+			 image = shootPic[count];
 		}
 		
 		x = enemy.getX() - enemy.getXp() + (enemy.getWidth() / 2);
