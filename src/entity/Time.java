@@ -10,14 +10,13 @@ import java.awt.image.BufferedImage;
 import org.w3c.dom.NamedNodeMap;
 
 import character.Character;
-import character.Naruto;
 import render.GameScreen;
 import render.IRenderable;
 import render.Login;
 import render.Resource;
 
 public class Time implements IRenderable {
-	public static boolean isPlay, isend, ishasWinner;
+	public static boolean isPlay, isend, ishasWinner,isAlreadyStop ,isStop;
 	private boolean isUpdate;
 	private double startTime;
 	private int timeEnd, time, state;
@@ -39,16 +38,26 @@ public class Time implements IRenderable {
 		isPlay = false;
 		isend = false;
 		ishasWinner = false;
-		isUpdate = false;
+		isAlreadyStop=false;
+		isStop=false;
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-
-		if(state>=1 && state<=4 || state>=timeEnd+5 && state<=timeEnd+15){
+		if(isStop){
 			g.drawImage(Resource.center, 0, 0, null);
+			g.setFont(new Font("Tahoma", Font.BOLD, 40));
+			FontMetrics fm = g.getFontMetrics();
+			Rectangle2D r2 = fm.getStringBounds("PAUSE", g);
+			g.drawString("PAUSE", GameScreen.width / 2 - (int) r2.getWidth() / 2, GameScreen.height / 2);
+			g.drawImage(Resource.timePoint, (int)(165+295-((time*1.0)/timeEnd)*295), 5, null);
+			return;
 		}
 		
+		if (state >= 1 && state <= 4 || state >= timeEnd + 5 && state <= timeEnd + 15) {
+			g.drawImage(Resource.center, 0, 0, null);
+		}
+
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));
 		g.setColor(Color.BLACK);
 		FontMetrics fm = g.getFontMetrics();
@@ -72,9 +81,9 @@ public class Time implements IRenderable {
 			r2 = fm.getStringBounds("KO", g);
 			g.drawString("KO", GameScreen.width / 2 - (int) r2.getWidth() / 2, GameScreen.height / 2);
 		} else if (state == timeEnd + 16) {
-//			g.drawImage(image, GameScreen.width / 2 - image.getWidth(), GameScreen.height / 2 - image.getHeight(),
-//					null);
-			g.drawImage(image, 0, 0,null);
+			 g.drawImage(image, GameScreen.width / 2 - image.getWidth(), GameScreen.height / 2 - image.getHeight(),
+			 null);
+//			g.drawImage(image, 0, 0, null);
 		}
 		g.drawImage(Resource.timePoint, (int)(165+295-((time*1.0)/timeEnd)*295), 5, null);
 //		r2 = fm.getStringBounds(Integer.toString(time), g);
@@ -96,19 +105,22 @@ public class Time implements IRenderable {
 
 	@Override
 	public void update() {
+		if(isStop) return; 
+		
 		if ((((Character) GameLogic.character[0]).isSuperAttack()
-				|| ((Character) GameLogic.character[1]).isSuperAttack()) && !isPlay) {
+				|| ((Character) GameLogic.character[1]).isSuperAttack()) && !isPlay &&!isAlreadyStop) {
 			if (((Character) GameLogic.character[0]).isSuperAttack()) {
 				image = Resource.pic[((Character) GameLogic.character[0]).indexC];
 				playeri = 0;
-				image = Resource.ss[2];
+//				image = Resource.ss[2];
 
 			} else {
 				playeri = 1;
 				image = Resource.pic[((Character) GameLogic.character[1]).indexC];
-				image = Resource.ss[2];
+//				image = Resource.ss[2];
 
 			}
+			isAlreadyStop=true;
 			if (!isUpdate) {
 				int prevState = state;
 				state = timeEnd + 16;
@@ -132,7 +144,7 @@ public class Time implements IRenderable {
 			}
 			return;
 		}
-
+		
 		double lastTime = System.nanoTime() / 1000000000;
 		if (lastTime - startTime >= 1 && !isend) {
 			state++;
@@ -158,6 +170,7 @@ public class Time implements IRenderable {
 		} else if (state == timeEnd + 9) {
 			isend = true;
 		}
+
 	}
 
 	@Override
@@ -166,7 +179,6 @@ public class Time implements IRenderable {
 		return false;
 	}
 
-	// player[]
 	public void getWinnerAn() {
 		int i = GameLogic.getWinner();
 		if (i == 1) {

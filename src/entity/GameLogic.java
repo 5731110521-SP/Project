@@ -16,10 +16,10 @@ import render.Setting;
 
 public class GameLogic {
 	public static Playable[] character;
+	private Time t;
 	static{
 		character=new Playable[2];
 	}
-	//char[]
 	
 	public GameLogic(int player1Choose,int  player2Choose){	
 
@@ -34,11 +34,18 @@ public class GameLogic {
 		StatusBar sb = new StatusBar((Character)character[0], (Character)character[1]);
 		RenderableHolder.getInstance().add(sb);
 
-		Time t = new Time();
+		t = new Time();
 		RenderableHolder.getInstance().add(t);
 	}
 	
 	public void logicUpdate(){
+		if(InputUtility.getKeyPressedTriggered(KeyEvent.VK_ESCAPE)){
+			InputUtility.updateInputState();
+			Time.isStop = !Time.isStop;
+		}
+		
+		if(Time.isStop) return;
+		
 		if(InputUtility.getKeyPressed(Setting.key[1])){
 			if(!((Character) character[0]).isLose() && Time.isPlay){
 				((Character) character[0]).run(true);
@@ -127,6 +134,7 @@ public class GameLogic {
 				}
 			}
 		}
+		
 		
 	}
 	

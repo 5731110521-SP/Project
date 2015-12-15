@@ -32,7 +32,7 @@ public class Winner extends JPanel{
 			Name.levelUp(Login.player[1].getName());
 		}
 		Name.createFile();
-		//player[]
+		
 		this.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -66,7 +66,7 @@ public class Winner extends JPanel{
 		});
 		
 	}
-	//paint
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -86,8 +86,6 @@ public class Winner extends JPanel{
 			Rectangle2D r2 = fm.getStringBounds("Draw", g);
 			g2.drawString("Draw", GameScreen.width / 2 - (int) r2.getWidth() / 2, GameScreen.width / 2-15);
 		}
-		
-//		g2.drawImage(Resource.bg[0], 0, 0 ,640,480, null);
 	}
 
 	public boolean update() {

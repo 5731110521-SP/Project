@@ -22,7 +22,7 @@ public class Name {
 
 	public static int findName(String name) {
 		for (int i = 0; i < line.size(); i++)
-			if (line.get(i).indexOf(name) == 0) {
+			if (line.get(i).indexOf(name) >= 0) {
 				return getLevel(line.get(i));
 			}
 		addName(name, 1);
@@ -41,20 +41,20 @@ public class Name {
 	public static void levelUp(String name) {
 		int index = 0;
 		for (int i = 0; i < line.size(); i++)
-			if (line.get(i).indexOf(name) == 0) {
+			if (line.get(i).indexOf(name) >= 0) {
 				index = i;
 				break;
 			}
-		//level+1
 		int level = getLevel(line.get(index))+1;
 		line.remove(index);
 		addName(name, level);
 	}
 
 	public static void readFile() {
+		
+		line= new ArrayList<String>();
 		try {
-			Scanner in = new Scanner(new File("Name"));
-			line= new ArrayList<String>();
+			Scanner in = new Scanner(new File("Name.txt"));
 			while (in.hasNext()) {
 				line.add(in.nextLine());
 			}
@@ -66,7 +66,7 @@ public class Name {
 
 	public static void createFile() {
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter("Name"));
+			BufferedWriter out = new BufferedWriter(new FileWriter("Name.txt"));
 			String str = "";
 			for (String s : line) {
 				str += s + "\n";

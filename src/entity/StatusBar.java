@@ -86,7 +86,6 @@ public class StatusBar implements IRenderable{
 		
 		//time
 		g.drawImage(Resource.time, 0, 3, null);
-		
 	}
 
 	@Override

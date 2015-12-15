@@ -9,21 +9,21 @@ import java.awt.image.BufferedImage;
 
 import entity.Player;
 import entity.Shootable;
+import entity.Time;
 import render.IRenderable;
 import render.RenderableHolder;
 import render.Resource;
 
 public class Naruto extends Character implements IRenderable {
 
-	public Naruto(int p, int ap, int dp, int hp, Player player) {
-		super(p, 20, 0, 100);
+	public Naruto(int p,int ap, int dp, int hp, Player player) {
+		super(p,20, 0, 100);
 		indexC = 2;
 		width = 53;
 		height = 61;
-		y = 373 - height;
+		y = y - height;
 		this.player = player;
 		character = Resource.naruto.getSubimage(0, 0, 53, 61);
-		// tran
 		transform();
 	}
 
@@ -86,7 +86,7 @@ public class Naruto extends Character implements IRenderable {
 
 	@Override
 	public void stand() {
-		if (isRun || isJump || isAttack || isShoot || isSuperAttack)
+		if (isRun || isJump || isAttack || isShoot ||isSuperAttack)
 			return;
 		character = Resource.naruto.getSubimage(0, 0, 53, 61);
 		for (int a : countPic)
@@ -206,6 +206,7 @@ public class Naruto extends Character implements IRenderable {
 		countPic[4]++;
 		if (countPic[4] >= 17) {
 			isSuperAttack = false;
+			Time.isAlreadyStop=false;
 			countPic[4] = 0;
 		}
 

@@ -13,6 +13,7 @@ import entity.Player;
 import entity.Shootable;
 import entity.Time;
 import input.InputUtility;
+import render.GameScreen;
 import render.IRenderable;
 import render.Login;
 import render.RenderableHolder;
@@ -20,7 +21,6 @@ import render.Resource;
 import render.Setting;
 
 public abstract class Character implements Playable {
-
 	BufferedImage character;
 	public int indexC, playeri;
 	protected int attackPower;
@@ -44,6 +44,7 @@ public abstract class Character implements Playable {
 		attackPower = ap;
 		defencePower = dp;
 		healthPoint = hp;
+		this.y = GameScreen.y;
 		xp = 0;
 		yp = 0;
 		countShoot = 0;
@@ -51,8 +52,8 @@ public abstract class Character implements Playable {
 		isAttacked = false;
 		isRun = false;
 		isJump = false;
-		count[0]=1;
-		count[1]=1;
+		count[0] = 1;
+		count[1] = 1;
 		isDoubleJump = false;
 		isTripleJump = false;
 		isRight = true;
@@ -60,6 +61,7 @@ public abstract class Character implements Playable {
 		flashing = false;
 		isVisible = true;
 		playeri = player;
+		isSuperAttack=false;
 		if (player == 1) {
 			x = 100;
 		} else {
@@ -72,7 +74,8 @@ public abstract class Character implements Playable {
 
 	public void draw(Graphics2D g) {
 		yp = character.getHeight() - height;
-		g.drawImage(character, x - xp, y - yp, character.getWidth(), character.getHeight(), null);
+		g.drawImage(character, x - xp, y - yp, (int) (character.getWidth() * 1.5), (int) (character.getHeight() * 1.5),
+				null);
 		xp = 0;
 		yp = 0;
 	}
@@ -110,7 +113,6 @@ public abstract class Character implements Playable {
 			x = 640 - character.getWidth();
 	}
 
-	// jump
 	public void jump() {
 		if (isAttack || isShoot || isSuperAttack) {
 			// System.out.println("re");
@@ -118,7 +120,7 @@ public abstract class Character implements Playable {
 		}
 
 		if (isJump) {
-			if (!isDoubleJump && !isTripleJump && count[0] > jumpMax && count[0] <= jumpMax * 2-2) {
+			if (!isDoubleJump && !isTripleJump && count[0] > jumpMax && count[0] <= jumpMax * 2 - 2) {
 				System.out.println("double");
 				isDoubleJump = true;
 				isTripleJump = true;
@@ -201,11 +203,11 @@ public abstract class Character implements Playable {
 	}
 
 	public void attackUpdate() {
-		if ((isAttack) && collideWith(enemy) && !isDoubleAttack) {
+		if ((isAttack || isSuperAttack) && collideWith(enemy) && !isDoubleAttack) {
 			enemy.setAttacked(true);
 			enemy.attacked(attackPower);
 			isDoubleAttack = true;
-			powerCount++;
+			if(!isSuperAttack)powerCount++;
 		}
 
 		if (isAttacked && flashing && flashDurationCounter % 2 == 0) {
@@ -264,7 +266,7 @@ public abstract class Character implements Playable {
 					try {
 						isSuperAttack = true;
 						Time.isPlay = false;
-						Thread.sleep(1000);
+						Thread.sleep(1200);
 						// System.out.println("out sleep");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -275,7 +277,6 @@ public abstract class Character implements Playable {
 
 				}
 			}).start();
-
 		}
 	}
 
@@ -341,7 +342,6 @@ public abstract class Character implements Playable {
 	}
 
 	public void update() {
-
 		if (playeri == 1) {
 			if (!InputUtility.getKeyPressed(Setting.key[0]) && !InputUtility.getKeyPressed(Setting.key[1])) {
 				isRun = false;
