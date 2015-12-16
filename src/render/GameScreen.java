@@ -14,13 +14,21 @@ import javax.swing.JComponent;
 
 
 public class GameScreen extends JComponent{
-	public static int width;
-	public static int height;
-	public static int y;
+	public static int width,height,y;
 	private static int indexBg;
+	public static int indexBgm;
 	static{
 		width = 640;
 		height = 480;
+		
+	}
+	public GameScreen(){
+		super();
+		this.setPreferredSize(new Dimension(640,480));
+		this.setDoubleBuffered(true);
+		this.setVisible(true);
+		this.requestFocus();
+		
 		indexBg = (int)(Math.random()*(Resource.bg.length-1));
 		if(indexBg == 0)	y = 430;
 		else if(indexBg == 1)	y = 420;
@@ -34,13 +42,12 @@ public class GameScreen extends JComponent{
 		else if(indexBg == 9)	y = 400;
 		else if(indexBg == 10)	y = 415;
 		else if(indexBg == 11)	y = 370;
-	}
-	public GameScreen(){
-		super();
-		this.setPreferredSize(new Dimension(640,480));
-		this.setDoubleBuffered(true);
-		this.setVisible(true);
-		this.requestFocus();
+		
+		indexBgm = (int)(Math.random()*(Resource.bgsound.length-1));
+		Resource.musicHome.stop();
+		if(!Setting.isMute){
+			Resource.bgsound[indexBgm].loop();
+		}
 		
 		this.addKeyListener(new KeyListener() {
 			
@@ -65,10 +72,7 @@ public class GameScreen extends JComponent{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
-		//Background
 		g2d.drawImage(Resource.bg[indexBg],0,0,640,480,null);
-//		g2d.setBackground(Color.WHITE);
-//		g2d.clearRect(0, 0, 640, 480);
 		synchronized (RenderableHolder.getInstance().getRenderableList()) {
 			for(IRenderable entity : RenderableHolder.getInstance().getRenderableList()){
 				if(entity.isVisible() && !entity.getFlashing()){

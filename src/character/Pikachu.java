@@ -19,8 +19,8 @@ import render.Resource;
 
 public class Pikachu extends Character implements IRenderable {
 
-	public Pikachu(int p, int ap, int dp, int hp, Player player) {
-		super(p, 10, dp, 100);
+	public Pikachu(int p, Player player) {
+		super(p, 4, 100);
 		indexC = 0;
 		width = 25;
 		height = 30;
@@ -28,6 +28,18 @@ public class Pikachu extends Character implements IRenderable {
 		this.player = player;
 		character = Resource.pikachu.getSubimage(102, 4, 25, 28);
 		transform();
+	}
+
+	@Override
+	public void stand() {
+		if (isRun || isJump || isAttack || isShoot || isSuperAttack)
+			return;
+		character = Resource.pikachu.getSubimage(102, 4, 25, 28);
+		width = 25;
+		height = 28;
+		countPic[0] = 0;
+		for (int a : countPic)
+			a = 0;
 	}
 
 	public void picRunUpdate() {
@@ -60,26 +72,13 @@ public class Pikachu extends Character implements IRenderable {
 			countPic[1] = 0;
 			if (i == 0) {
 				isJump = false;
-			} else {
+			} else
 				isDoubleJump = false;
-			}
-
 		}
 	}
 
-	public void stand() {
-		if (isRun || isJump || isAttack || isShoot || isSuperAttack)
-			return;
-		character = Resource.pikachu.getSubimage(102, 4, 25, 28);
-		width = 25;
-		height = 28;
-		countPic[0] = 0;
-		for (int a : countPic)
-			a = 0;
-	}
-
 	public void picAttackUpdate() {
-		if (!isAttack)
+		if (!isAttack || isSuperAttack)
 			return;
 		character = Resource.pikachu.getSubimage(1 + countPic[2] * 28, 181, 28, 25);
 		width = 28;
@@ -113,25 +112,18 @@ public class Pikachu extends Character implements IRenderable {
 		isShoot = false;
 	}
 
-	public void picLoseUpdate() {
-		if (!lose)
-			return;
-		character = Resource.pikachu.getSubimage(102, 4, 25, 28);
-		AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(-90), width / 2, height / 2);
-		AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
-		character = op.filter(character, null);
-
-	}
-
 	@Override
 	public void picSuperAttack() {
 		if (!isSuperAttack)
 			return;
 		countPic[4]++;
+		if (countPic[4] == 1)
+			Resource.pikachu2.play();
 		if (countPic[4] >= 3) {
-			countPic[4]=0;
+			countPic[4] = 0;
 			Time.isAlreadyStop = false;
 			isSuperAttack = false;
+			isDoubleAttack = false;
 		}
 	}
 
@@ -153,7 +145,7 @@ public class Pikachu extends Character implements IRenderable {
 					try {
 						isSuperAttack = true;
 						Time.isPlay = false;
-						Thread.sleep(1200);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -165,6 +157,15 @@ public class Pikachu extends Character implements IRenderable {
 			}).start();
 
 		}
+	}
+
+	public void picLoseUpdate() {
+		if (!lose)
+			return;
+		character = Resource.pikachu.getSubimage(102, 4, 25, 28);
+		AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(-90), width / 2, height / 2);
+		AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
+		character = op.filter(character, null);
 	}
 
 	@Override
